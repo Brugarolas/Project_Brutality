@@ -4,9 +4,9 @@ ACTOR HighExplosiveGrenadeRounds : Ammo
 	+FLOORCLIP
 	+DONTGIB
 	ConversationID 177, 170, 174
-	Inventory.Amount 6
+	Inventory.Amount 3
 	Inventory.MaxAmount 25
-	Ammo.BackpackAmount 6
+	Ammo.BackpackAmount 3
 	Ammo.BackpackMaxAmount 50
 //	Inventory.Icon "LHEGA0"
 	Inventory.PickUpSound "misc/rockboxa"
@@ -26,9 +26,9 @@ ACTOR SpecialGrenadeRounds : Ammo
 	+FLOORCLIP
 	+DONTGIB
 	ConversationID 178, 171, 175
-	Inventory.Amount 4
+	Inventory.Amount 2
 	Inventory.MaxAmount 50
-	Ammo.BackpackAmount 4
+	Ammo.BackpackAmount 2
 	Ammo.BackpackMaxAmount 100
 //	Inventory.Icon "LPHGA0"
 	Tag "$TAG_PHGRENADES"
@@ -48,10 +48,10 @@ ACTOR PistolBullets : Ammo
 	Game Doom
 	+FLOORCLIP
 	+DONTGIB
-	Inventory.Amount 10
+	Inventory.Amount 8
 	Inventory.MaxAmount 200
 	Inventory.PickUpSound "misc/clip_PickUp"
-	Ammo.BackpackAmount 10
+	Ammo.BackpackAmount 8
 	Ammo.BackpackMaxAmount 400
 	Inventory.Icon "MBLKA0"
 	Tag "$TAG_CLIPOFBULLETS"

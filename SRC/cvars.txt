@@ -71,8 +71,7 @@ int current_player_armor = 0;
 
 script "DemonMorphHealthReset" (VOID) NET
 {
-	SetActorProperty(0, APROP_HEALTH, current_player_health);
-	GiveInventory("ArmorBonus", current_player_armor);
+	GiveInventory("EnergySphere", 1);
 }
 
 script "DemonMorphTimer" (VOID) NET
@@ -950,6 +949,7 @@ script "CombatBackPack" (void)
 	SetAmmoCapacity("Demonpower", 800);
 	SetAmmoCapacity("MiniHellRocketAmmo", 30);
 	delay(2);
+	/*
 	GiveInventory("Medikit",2);
 	GiveInventory("Backpack",1);
 	GiveInventory("BulletKit", 4);
@@ -957,7 +957,7 @@ script "CombatBackPack" (void)
 	GiveInventory("NewShell",50); 
 	GiveInventory("Rocketbox",20);
 	GiveInventory("HandGrenadeAmmo", 8);
-	
+	*/
 }
 
 Script "ToggleRestoreDualCarbine" (VOID) NET

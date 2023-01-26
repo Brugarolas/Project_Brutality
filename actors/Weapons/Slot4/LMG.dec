@@ -208,7 +208,7 @@ Weapon.BobStyle InverseSmooth
 Weapon.BobSpeed 2.4
 Weapon.AmmoType1 "NewClip"
 Weapon.AmmoType2 "LMGAmmo"
-Weapon.AmmoGive 45
+Weapon.AmmoGive 25
 Scale 0.45
 Weapon.AmmoUse1 0
 Weapon.AmmoUse2 0

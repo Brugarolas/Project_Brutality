@@ -103,7 +103,7 @@ ACTOR PB_Autoshotgun  : PB_Weapon
 	Weapon.SelectionOrder 1300
 	Weapon.AmmoUse1 0
 	Weapon.AmmoUse2 0
-	Weapon.AmmoGive1 5
+	Weapon.AmmoGive1 3
 	Weapon.AmmoGive2 0
 	+FLOORCLIP
 	+DONTGIB

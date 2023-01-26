@@ -70,7 +70,7 @@ ACTOR PB_PulseCannon : PB_M1Plasma
 	Weapon.BobStyle InverseSmooth
 	Weapon.BobSpeed 2.4
 	Weapon.AmmoUse1 0
-	Weapon.AmmoGive1 60
+	Weapon.AmmoGive1 20
 	Weapon.AmmoUse2 0
 	Weapon.AmmoGive2 0
     Inventory.PickupSound "7LSPICK"

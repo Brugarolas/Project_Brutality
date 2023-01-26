@@ -2,7 +2,6 @@ Actor SingleSpecialGrenade : SpecialGrenadeRounds
 {
     Scale 0.75
     Inventory.Amount 1
-    Inventory.MaxAmount 100
     Inventory.PickUpMessage "Picked up a Special Grenade."
 	Inventory.PickUpSound "misc/rocket_PickUp"
 	+DONTGIB
@@ -22,8 +21,7 @@ Actor SpecialGrenadeBox : SpecialGrenadeRounds
     Scale 0.75
 	Inventory.PickupMessage "Picked up a Case of Special Grenades."
 	Inventory.PickupSound "misc/rockboxa"
-	Inventory.Amount 7
-	Inventory.MaxAmount 60
+	Inventory.Amount 3
 	States
 	{
 	Spawn:

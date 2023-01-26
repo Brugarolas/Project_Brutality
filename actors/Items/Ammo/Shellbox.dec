@@ -23,11 +23,8 @@ ACTOR NewShellBox : NewShell
 {
 	Inventory.PickUpSound "misc/shellbox_PickUp"
 	Inventory.PickupMessage "Picked up a box of Shotgun Shells."
-	Inventory.Amount 12
-	Inventory.MaxAmount 50
-	Ammo.BackpackAmount 12
+	Inventory.Amount 8
 	scale 0.25
-	Ammo.BackpackMaxAmount 100
 	States
 	{
 	Spawn:

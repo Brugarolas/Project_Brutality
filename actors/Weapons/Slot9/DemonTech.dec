@@ -112,7 +112,7 @@ ACTOR Hell_rifle : PB_Weapon
 	Weapon.BobSpeed 2.4
 	Weapon.SelectionOrder 400
 	Weapon.AmmoUse1 0
-	Weapon.AmmoGive1 20
+	Weapon.AmmoGive1 5
 	Weapon.AmmoUse2 0
 	Weapon.AmmoGive2 0
 	+FLOORCLIP
@@ -769,7 +769,7 @@ actor DemonPower : Ammo
 	//$Sprite MSP2A0
 	Inventory.PickupMessage "Lesser demon energy"
 	Inventory.PickupSound "HellPickup"
-	Inventory.Amount 20 
+	Inventory.Amount 1
 	Inventory.MaxAmount 300
 	Inventory.Icon "MSP2A0"
 	Ammo.BackpackAmount 0
@@ -799,7 +799,7 @@ actor LargeDemonPower : DemonPower
 	//$Category Ammunition
 	//$Sprite MSP2A0
 	Inventory.PickupMessage "Greater demon energy"
-	Inventory.Amount 40
+	Inventory.Amount 2
 	scale 1.1
 	states
 	{
