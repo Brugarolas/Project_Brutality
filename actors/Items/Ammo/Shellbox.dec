@@ -5,10 +5,10 @@ ACTOR NewShell : Ammo Replaces Shell
 	+FLOORCLIP
 	+DONTGIB
 	+INVENTORY.IGNORESKILL //To make unloading work properly
-	Inventory.Amount 4
+	Inventory.Amount 3
 	Inventory.MaxAmount 50
 	Inventory.Icon "SHELA0"
-	Ammo.BackpackAmount 4
+	Ammo.BackpackAmount 3
 	scale 0.14
 	Ammo.BackpackMaxAmount 100
 	States
