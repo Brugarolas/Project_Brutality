@@ -192,7 +192,7 @@ Pickup:
 TNT1 A 0 A_GiveInventory ("FlamerUpgraded")
 TNT1 A 0 A_GiveInventory ("PB_Flamethrower")
 TNT1 A 0 A_GiveInventory("FlamerTankNotInserted")
-TNT1 A 0 A_GiveInventory ("Gas", 90)
+TNT1 A 0 A_GiveInventory ("Gas", 40)
 Stop
 }
 }
@@ -208,7 +208,7 @@ Actor PB_FlamethrowerMancubusGas : CustomInventory
 			MANA H 1 
 			Loop
 		Pickup:
-			TNT1 A 0 A_GiveInventory ("Gas", 50)
+			TNT1 A 0 A_GiveInventory ("Gas", 10)
 			Stop
 	}
 }
@@ -223,7 +223,7 @@ ACTOR PB_Flamethrower : PB_Weapon
 	Scale 0.45
 	Weapon.SelectionOrder 5550
 	Weapon.AmmoUse1 0
-	Weapon.AmmoGive1 90
+	Weapon.AmmoGive1 20
 	Weapon.AmmoType1 "Gas"
 	Weapon.AmmoType2 "FlamerAmmo"
 	PB_WeaponBase.respectItem "RespectFlamerGoon"
@@ -1273,9 +1273,9 @@ ACTOR BigFireBallWithGravity: BigFireBall
 
 ACTOR Gas : Ammo
 {
-   Inventory.Amount 50
+   Inventory.Amount 20
    Inventory.MaxAmount 300
-   Ammo.BackpackAmount 150
+   Ammo.BackpackAmount 20
    Ammo.BackpackMaxAmount 600
    +INVENTORY.IGNORESKILL
    Inventory.Icon "GSLNA0"
