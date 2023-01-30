@@ -951,7 +951,10 @@ script "CombatBackPack" (void)
 	delay(2);
 	/*
 	GiveInventory("Medikit",2);
+	*/
 	GiveInventory("Backpack",1);
+	GiveInventory("Backpack",1);
+	/*
 	GiveInventory("BulletKit", 4);
 	GiveInventory("NewClip", 200);
 	GiveInventory("NewShell",50); 
