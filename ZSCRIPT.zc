@@ -1,4 +1,4 @@
-version "4.5.0"
+version "4.8.2"
 
 const MAXITERATIONS = 32676;
 
@@ -33,7 +33,8 @@ const MAXITERATIONS = 32676;
 #include "zscript/PbWheel/ev_core_special.zsc"
 #include "zscript/PbWheel/ev_drawer_special.zsc"
 #include "zscript/DeathFader.zc"
-#include "zscript/PlayerPawn.zc"
+#include "zscript/Player/PlayerPawn.zc"
+#include "zscript/Player/ZSPlayer.zsc"
 #include "zscript/ZMoveMenu.ZMV"
 #include "zscript/PBHitbox.zc"
 #include "zscript/TiltPlus/TiltPlusPlus.zc"
@@ -95,10 +96,34 @@ const MAXITERATIONS = 32676;
 #include "zscript/Weapons/Projectiles/BulletDef.Shell.zsc"
 #include "zscript/Weapons/Projectiles/BulletDef.HighCal.zsc"
 #include "zscript/Weapons/Projectiles/BulletDef.SpecialProjectiles.zsc"
+#include "zscript/Weapons/Projectiles/BulletDef.EnemyProjectiles.zsc"
 
 //Spawners
 #include "zscript/Spawner/PB_SpawnerBase.zc"
+#include "zscript/Spawner/Weapons/PB_ChainsawSpawner.zc"
 #include "zscript/Spawner/Weapons/PB_ShotgunSpawner.zc"
+#include "zscript/Spawner/Weapons/PB_SSGSpawner.zc"
+#include "zscript/Spawner/Weapons/PB_ChaingunSpawner.zc"
+#include "zscript/Spawner/Weapons/PB_RLSpawner.zc"
+#include "zscript/Spawner/Weapons/PB_PlasmaRifleSpawner.zc"
+#include "zscript/Spawner/Weapons/PB_BFGSpawner.zc"
+
+#include "zscript/Spawner/Monsters/PBZombiemanSpawner.zc"
+#include "zscript/Spawner/Monsters/PBShotgunGuySpawner.zc"
+#include "zscript/Spawner/Monsters/PBCommandoSpawner.zc"
+#include "zscript/Spawner/Monsters/PBImpSpawner.zc"
+#include "zscript/Spawner/Monsters/PBPinkySpawner.zc"
+#include "zscript/Spawner/Monsters/PBSpectreSpawner.zc"
+#include "zscript/Spawner/Monsters/PBCacoDemonSpawner.zc"
+#include "zscript/Spawner/Monsters/PBPESpawner.zc"
+#include "zscript/Spawner/Monsters/PBLostSoulSpawner.zc"
+#include "zscript/Spawner/Monsters/PBRevSpawner.zc"
+#include "zscript/Spawner/Monsters/PBArachSpawner.zc"
+#include "zscript/Spawner/Monsters/PBHKSpawner.zc"
+#include "zscript/Spawner/Monsters/PBBOHSpawner.zc"
+#include "zscript/Spawner/Monsters/PBMancubusSpawner.zc"
+#include "zscript/Spawner/Monsters/PBMastermindSpawner.zc"
+#include "zscript/Spawner/Monsters/PBCyberDemonSpawner.zc"
 
 //Le Funny Hat Simulator
 #include "zscript/SpecialShit/HatExtravaganza.zc"
@@ -505,17 +530,21 @@ class MBlurHandler : StaticEventHandler
 				double increment	= 1. / copies ;
 				vector2 travel		= ( xtravel, ytravel ) / screen.getheight() ;
 				
-				Shader.SetUniform2f( plr, "MBlur", "steps", travel * increment );
-				Shader.SetUniform1f( plr, "MBlur", "samples", copies );
-				Shader.SetUniform1f( plr, "MBlur", "increment", increment );
-				Shader.SetUniform1f( plr, "MBlur", "blendmode", Cvar.GetCVar( "mblur_blendmode", plr ).GetInt() );
-					
-				Shader.SetEnabled( plr, "MBlur", true );
+				if(player && plr)
+				{
+					PPShader.SetUniform2f( "MBlur", "steps", travel * increment );
+					PPShader.SetUniform1f( "MBlur", "samples", copies );
+					PPShader.SetUniform1f( "MBlur", "increment", increment );
+					PPShader.SetUniform1f( "MBlur", "blendmode", Cvar.GetCVar( "mblur_blendmode", plr ).GetInt() );
+						
+					PPShader.SetEnabled( "MBlur", true );
+				}
 				
 			}
 			else
 			{
-				Shader.SetEnabled( plr, "MBlur", false );
+				if(player && plr)
+					PPShader.SetEnabled( "MBlur", false );
 			}
 		}
 	}

@@ -27,6 +27,13 @@ class PB_Monster : Actor abstract
 	
 	property MonDMGMult : dmgHeadMult, dmgTorsoMult, dmgArmMult, dmgLowTorsoMult, dmgDickMult, dmgLegMult;
 	
+	double posHeadHB; //0.8
+	double posTorsoHB; //0.65
+	double posDickHB; //0.38
+	double posLegHB; //0.40
+	
+	property MonPosHB : posHeadHB, posTorsoHB, posDickHB, posLegHB;
+	
 	//The main custom A_Chase function
 	
 	void A_SmartChase()
@@ -55,6 +62,13 @@ class PB_Monster : Actor abstract
 				SetStateLabel("Fallback");
 			}
 		}
+		if(waterlevel >= 1 && Target.Pos.Z > self.Pos.Z)
+		{
+			A_Chase();
+			A_FaceTarget(30);
+			A_Recoil(-3);
+			ThrustThingZ(0, 5, 0, 1);
+		}
 		if (CheckSight(target) == true && CheckIfCloser(target, 3000))
 		{
 			double dist = Distance3D(target);
@@ -81,7 +95,7 @@ class PB_Monster : Actor abstract
 						if(GetCVar("pb_disabledynamicavoid") == 0)
 						{
 							A_FaceTarget();
-							SetStateLabel("Avoid");
+							SetStateLabel("Roll");
 						}
 					}
 				}
@@ -129,6 +143,15 @@ class PB_Monster : Actor abstract
 				SetStateLabel("SeeContinue");
 			}
 		}
+	}
+	
+	void A_DeathWepCheck(string tokenName, double unitDist, statelabel deathState)
+	{
+		if(Distance2D(target) < unitDist && CountInv(tokenName, AAPTR_TARGET) >= 1)
+		{
+			SetStateLabel(deathState);
+		}
+		return;
 	}
 	
 	void ExecutionHandler() {
@@ -273,5 +296,7 @@ class PB_Monster : Actor abstract
 		PB_Monster.CanIRoll true;
 		PB_Monster.CanIFallback true;
 		PB_Monster.MonDMGMult 1.25, 1.1, 0.70, 1.0, 0.95, 0.80;
+		PB_Monster.MonPosHB 0.8, 0.65, 0.38, 0.40;
+		PB_Monster.AttackRange 5000;
 	}
 }
