@@ -1,6 +1,5 @@
 // Spawning Related Tokens
 
-//Class PlayerHasWeaponTier2SG : Inventory {default{inventory.maxamount 4;}}
 Class SpawnwSSG : Inventory {default{inventory.maxamount 1;}}
 Class NoSpawnQuadSG : Inventory {default{inventory.maxamount 1;}}
 Class NoSpawn : Inventory {default{inventory.maxamount 1;}}
@@ -8,19 +7,49 @@ Class CheckCvarSSG : Inventory {default{inventory.maxamount 1;}}
 Class CvarChecked : Inventory {default{inventory.maxamount 1;}}
 Class NoSpawnASGUpgrade : Inventory {default{inventory.maxamount 1;}}
 Class NeedSpawning : Inventory {default{inventory.maxamount 1;}}
-Class PlayerHasHDMR : Inventory {default{inventory.maxamount 2;}}
-Class PlayerHasNailgun : Inventory {default{inventory.maxamount 1;}}
-Class PlayerHasMinigunUpgrade : Inventory {default{inventory.maxamount 1;}}
-//Class PlayerHasBFG9000 : Inventory {default{inventory.maxamount 1;}}
+Class Setto0Once : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
 
-Class AllCaughtUp : Inventory {default{inventory.maxamount 1;}}
-Class AllCaughtUpT1 : Inventory {default{inventory.maxamount 1;}}
-Class AllCaughtUpT2 : Inventory {default{inventory.maxamount 1;}}
-Class AllCaughtUpT3 : Inventory {default{inventory.maxamount 1;}}
+//Chainsaw Spawner
+Class PlayerHasChainsawPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasFLMTPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasFLMTUPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+// Shotgun Spawner
+Class PlayerHasShotgunPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasRevolverPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasASGPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasSGMagPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasDeaglePermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+// SSG Spawner
+Class PlayerHasSSGPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasQuadSGPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasASGDrumPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+//Chaingun Spawner
+Class PlayerHasMGPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasCarbinePermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasNailGunPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasHDMRPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasSMGPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasMGUPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasLMGPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+//RL Spawner
+Class PlayerHasRLPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasSGLPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+//Plasma Spawner
+Class PlayerHasM1PlasmaPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasM2PlasmaPermanent : Inventory {default{inventory.maxamount 2;+inventory.UNDROPPABLE;}}
+Class PlayerHasRGPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasCryoPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasM2UPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+//BFG Spawner
+Class PlayerHasBFGPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasMG42Permanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
+Class PlayerHasUnmakerPermanent : Inventory {default{inventory.maxamount 1;+inventory.UNDROPPABLE;}}
 
 Class PB_SpawnerBase : Actor
 {
-
+	
+	PB_GlobalStats Stats;
+	
 	Default
 	{
 	+LOOKALLAROUND;
@@ -34,6 +63,7 @@ Class PB_SpawnerBase : Actor
 	//+NODAMAGE;
 	+DONTGIB;
 	//+NOMENU;
+	+FORCEXYBILLBOARD;
 	Species "spawner";
 	}
 
@@ -63,31 +93,46 @@ Class PB_SpawnerBase : Actor
 	States
 	{
 		Spawn:
-		TNT1 A 0;
-		goto Deciding;
-		See:
-		    TNT1 A 0;
-			Stop;
-		Deciding:
-		SpawnActor:
-		Death:
-		ChaoticRandom:
-		T1:
-		T2:
-		T3:
-		T4:
-		T2RANDOM64:
-		T2RANDOM128:
-		T2RANDOM192:
-		T3RANDOM64:
-		T3RANDOM128:
-		T3RANDOM192:
-		T4RANDOM64:
-		T4RANDOM128:
-		T4RANDOM192:
-			TNT1 A 1;
-            stop;
+	    TNT1 A 1;
+        stop;
 	}
+}
+
+CLASS droppedbase:CustomInventory
+{
+default
+{
+    Radius 8;
+    Height 10;
+    Scale 0.5;
+    gravity 1;
+	Decal "none";
+    //+MOVEWITHSECTOR;
+    +DONTGIB;
+    //+NOTELEPORT;
+	+FLOORCLIP;
+	Inventory.PickupMessage "";
+    Inventory.PickupSound "";
+	+NOTIMEFREEZE;
+}
+    States
+    {
+    Spawn:
+		//TNT1 AA 1
+		TNT1 AA 0;
+	Spawn2:	
+	    TNT1 A 0;
+        Stop;
+	Pickup:
+		TNT1 A 0;
+		Stop;
+	Pickup2:
+		TNT1 A 0;
+		Stop;
+	Death:
+        TNT1 A 0;
+        Stop;
+    }
 }
 
 // SequentialMapOrder is 1-32, not 0-32, we start from 1.
@@ -99,12 +144,13 @@ class pb_worldHandler : EventHandler
   // special case here as if anything is loaded that will go into MAP01
   // it is definitely a map that allows you to do something with
   // selections like jimmy's jukebox.
-    if(e.NextMap == "MAP01")
+    
+	if(gamestate==GS_TITLELEVEL||e.NextMap ~== "MAP01")
     {
      CVar.GetCVar("CanGive").SetBool(false);
     }
 	// Increment based on what it isn't rather than what it is,
-    if(e.NextMap != "PBTEST"||e.NextMap != "TEST"||e.NextMap != "TITLEMAP")
+    if(gamestate!=GS_TITLELEVEL||e.NextMap != "PBTEST"||e.NextMap != "TEST"||e.NextMap != "TITLEMAP")
     {
      CVar.GetCVar("CanGive").SetBool(true);
     }
@@ -121,6 +167,7 @@ class pb_worldHandler : EventHandler
   {
    CVar.GetCVar("CanGive").SetBool(true);
   }
+    
    // Proceed normally
    if(CVar.GetCVar("CanGive").GetBool()==true)
 	{

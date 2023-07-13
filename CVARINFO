@@ -183,7 +183,7 @@ server int pb_NoJuggernaut = 0;
 //Cyber Demon Variants
 server int pb_NoAnnihilator = 0;
 
-User bool PlayerCatchup = true;
+User bool PlayerCatchup = false;
 
 ////////////////////Weapon Spawning Toggles//////////////////////////
 server bool DynamicWeaponSpawn = true;
@@ -503,3 +503,4 @@ server noarchive bool CanGive = false;
 // once for the menu, once in game.
 server noarchive int SMO = 0;
 server int DynamicSpawnMonsters = 1;
+server int levelsToPlay = 32;
