@@ -8,6 +8,8 @@ class PB_Monster : Actor abstract
 	bool willBeLooking;
 	int heardOpponent;
 	
+	int avoidCooldown;
+	
 	int enemyRange;
 	Property AttackRange : enemyRange;
 	//the enemies attack range, in case you wanted some enemies to be CQC mainly, or snipe
@@ -51,6 +53,7 @@ class PB_Monster : Actor abstract
 		{
 			A_ClearTarget();
 			Wandering == true;
+			A_GiveInventory("Wandering",1);
 			A_Wander();
 			A_LookEx();
 			return;
@@ -62,7 +65,7 @@ class PB_Monster : Actor abstract
 				SetStateLabel("Fallback");
 			}
 		}
-		if(waterlevel >= 1 && Target.Pos.Z > self.Pos.Z)
+		if(waterlevel >= 1 && Target.Pos.Z > (self.Pos.Z + 10))
 		{
 			A_Chase();
 			A_FaceTarget(30);
@@ -105,6 +108,13 @@ class PB_Monster : Actor abstract
 		else if (CheckSight(target) == false && abs(Level.MapTime - EnemyLastSighted) < 360)
 		{
 			A_Chase();
+			
+			int chanceR = (random(1,10));
+			
+			if(bFRIGHTENED && chanceR <= 5)
+			{
+				SetStateLabel("Reload");
+			}
 		}
 		else
 		{
@@ -272,6 +282,11 @@ class PB_Monster : Actor abstract
 		Super.Tick();
 		//HitboxerHandler();
 		ExecutionHandler();
+		
+		if(avoidCooldown > 0)
+		{
+			avoidCooldown--;
+		}
 	}
 
 	override void PostBeginPlay()
@@ -279,6 +294,7 @@ class PB_Monster : Actor abstract
 		Super.PostBeginPlay();
 		heardOpponent = 0;
 		HitBoxSpawned = False;
+		avoidCooldown = 0;
 	}
 	
 	Default
