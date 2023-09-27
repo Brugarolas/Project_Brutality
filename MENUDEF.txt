@@ -17,6 +17,7 @@ OptionMenu "PB_HUDOptions"
 	Option "Show Ammo List", "pb_showammolist", "YesNo"
 	Option "Ammo List Displays current/max", "pb_curmaxammolist", "YesNo", "pb_showammolist"
 	Option "Hide Unused Ammo Types on Ammo List", "pb_hideunusedtypes", "YesNo", "pb_showammolist"
+	Option "Custom Mugshot","pb_newmugshot","YesNo"
 	StaticText " "
 	Slider "Horizontal Deadzone", "pb_hudxmargin", -15, 50, 1, 0
 	Slider "Vertical Deadzone", "pb_hudymargin", -15, 50, 1, 0
@@ -131,15 +132,10 @@ OptionMenu "GlobalSettings"
 	//StaticText "which will give you the next one you don't have."
 	//StaticText " "
 	Option "$PB_SSG_RNDSPWN",				"pb_SSGRandomSpawn", "OnOff"
-	StaticText ""
-	StaticText "$PB_SSG_RNDSPWN_INF1"
-	StaticText "$PB_SSG_RNDSPWN_INF2"
-	StaticText "$PB_SSG_RNDSPWN_EXT"
+	
 	StaticText ""
 	
-	Option "CollectedWeaponsStay",				"PlayerCatchup", "EnabledOption"
-	StaticText ""
-	StaticText "Should Collected Weapons be permanent?",gold
+	Option "Weapons persist through death exits",				"PlayerCatchup", "YesNo"
 }
 
 OptionValue "SpawnChoiceSpawner"
@@ -506,8 +502,8 @@ OptionMenu "MonsterSpawns"
 	Title	"---------Monster Spawns---------"
 	StaticText "---------------Zombiemen Variants---------------", gold
 	
-	Option "NaziExclusivelySpawn", "PB_NaziExclusiveSpawning", "EnabledOption"
-	StaticText "Nazis Only spawn instead of being having a chance to be replaced by Grunts",gold
+	Option "Disable Nazi random replacements", "PB_NaziExclusiveSpawning", "EnabledOption"
+	StaticText "Disable the random chance for Nazis to be replaced by Grunts", red
 	StaticText " "
 	Option "Pistol Zombiemen", "pb_NoPistolZman", "OffOn"
 	Option "Helmet Zombiemen", "pb_NoHelmetZman", "OffOn"

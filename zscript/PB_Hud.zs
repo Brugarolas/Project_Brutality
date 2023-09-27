@@ -9,6 +9,7 @@ generic name guy
 
 A_D_M_E_R_A_L
 -Slanted Bars
+-Mugshot code
 
 Iamcarrotmaster
 -Graphics
@@ -24,6 +25,9 @@ James Paddock
 
 Severin Meyer
 -Oxanium font
+
+Lewisk3
+-Messages base
 */
 
 class PB_Hud_ZS : BaseStatusBar
@@ -61,14 +65,17 @@ class PB_Hud_ZS : BaseStatusBar
 
     //Hud variables
     string leftAmmoAmount;
-    bool doKeyBox, hudDynamics, inPain;
-    double dashIndAlpha;
-    int healthFontCol, keyamount;
+    bool hudDynamics, inPain;
+    double dashIndAlpha, flashlightBatteryAlpha;
+    int healthFontCol, keyamount, hudState;
+    //array<PB_HudMessageStorage> messageArray;
+    //double deltaTime, prevMS;
 
     //CVars
-    int hudXMargin, hudYMargin;
-    bool hudDynamicsCvar, showVisor, showVisorGlass, showLevelStats, forceScale, lowresfont, curmaxammolist, hideunusedtypes, showList;
+    int hudXMargin, hudYMargin, playerMsgPrint;
+    bool hudDynamicsCvar, showVisor, showVisorGlass, showLevelStats, lowresfont, curmaxammolist, hideunusedtypes, showList, customPBMugshot;
     double playerAlpha, playerBoxAlpha;
+    bool centerNotify;
     
 	override void Init()
 	{
@@ -92,13 +99,13 @@ class PB_Hud_ZS : BaseStatusBar
 
 		InvBar = InventoryBarState.Create();
 	}
-
-	override void Draw(int state, double TicFrac)
+	
+	void GatherCvars()
 	{
-		Super.Draw(state, TicFrac);
+		hudDynamicsCvar = CVar.GetCvar("PB_HudDynamics", CPlayer).GetBool();
 
-        hudDynamicsCvar = CVar.GetCvar("PB_HudDynamics", CPlayer).GetBool();
         hudDynamics = automapactive ? false : hudDynamicsCvar;
+
 
         hudXMargin = Cvar.GetCvar("pb_hudxmargin", CPlayer).GetInt();
         hudYMargin = CVar.GetCvar("pb_hudymargin", CPlayer).GetInt();
@@ -117,8 +124,30 @@ class PB_Hud_ZS : BaseStatusBar
         playerAlpha = CVar.GetCvar("pb_hudalpha", CPlayer).GetFloat();
 
         playerBoxAlpha = CVar.GetCvar("pb_hudboxalpha", CPlayer).GetFloat();
+
+        customPBMugshot = CVar.GetCvar("pb_newmugshot", CPlayer).GetBool();
+        centerNotify = CVar.GetCVar("con_centernotify", CPlayer).GetBool();
+        playerMsgPrint = CVar.GetCVar("msg").GetInt();
+	}
+
+	/*double Lerp(double start, double end, double time)
+	{
+		return ((1.0 - time) * start) + (time * end);
+	}*/
+
+	override void Draw(int state, double TicFrac)
+	{
+		Super.Draw(state, TicFrac);
+
+        GatherCvars();
         
-        if(state != HUD_None)
+        hudState = state;
+        
+        /*double ftime = MsTimeF() - prevMS;
+        prevMS = MsTimeF();
+        deltaTime = ftime / (1000.0 / 60.0);*/
+    	
+        if(hudState != HUD_None)
 		{
 			BeginHUD();
 			DrawFullScreenStuff();
@@ -133,26 +162,9 @@ class PB_Hud_ZS : BaseStatusBar
         m64to0 = 64;
         m0to1Float = 0;
         dashIndAlpha = 0;
+        flashlightBatteryAlpha = 0;
 
-        hudDynamics = CVar.GetCvar("PB_HudDynamics", CPlayer).GetBool();
-        
-        hudXMargin = Cvar.GetCvar("pb_hudxmargin", CPlayer).GetInt();
-        hudYMargin = CVar.GetCvar("pb_hudymargin", CPlayer).GetInt();
-        
-        showVisor = CVar.GetCvar("pb_showhudvisor", CPlayer).GetBool();
-        showVisorGlass = CVar.GetCvar("pb_showhudvisorglass", CPlayer).GetBool();
-        
-        showLevelStats = CVar.GetCvar("pb_showlevelstats", CPlayer).GetBool();
-        
-        lowresfont = CVar.GetCvar("pb_uselowreshudfont", CPlayer).GetBool();
-        
-        showList = CVar.GetCvar("pb_showammolist", CPlayer).GetBool();
-        curmaxammolist = CVar.GetCvar("pb_curmaxammolist", CPlayer).GetBool();
-        hideunusedtypes = CVar.GetCvar("pb_hideunusedtypes", CPlayer).GetBool();
-
-        playerAlpha = CVar.GetCvar("pb_hudalpha", CPlayer).GetFloat();
-
-        playerBoxAlpha = CVar.GetCvar("pb_hudboxalpha", CPlayer).GetFloat();
+        GatherCvars();
         
         mHealthInterpolator.Reset(0);
 		mArmorInterpolator.Reset(0);
@@ -163,6 +175,104 @@ class PB_Hud_ZS : BaseStatusBar
         mPitchInterpolator.Reset(0);
         mFOffsetInterpolator.Reset(0);
 	}
+
+	/*override bool ProcessNotify(EPrintLevel printlevel, string outline)
+	{
+		if(printlevel == PRINT_LOG || printlevel & PRINT_NONOTIFY || printlevel < playerMsgPrint || printlevel > PRINT_HIGH)
+			return false;
+		
+		PB_HudMessageStorage message;
+		
+		if(!centerNotify)
+			message = PB_HudMessageStorage.Init(outline, 1, showLevelStats ? (15, 80) : (15, 17), printlevel);
+		else
+			message = PB_HudMessageStorage.Init(outline, 1, (0, 17), printlevel);
+		
+		if(!message) 
+			return false;
+		
+		message.pos = message.newPos;
+		message.scale = message.newScale;
+		PushMessageToMessageArray(message);
+		return true;
+	}
+	
+	void PushMessageToMessageArray(PB_HudMessageStorage msg, double newLineStep = 17, int maxPastMessages = 4) //maxpastmessages does not count the latest message
+	{
+		int count = messageArray.Size() - 1;
+		if(count >= maxPastMessages) //delete the oldest message
+		{
+			messageArray.Delete(0);
+			count--;
+		}
+		
+		if(messageArray.Size() > 0)
+		{
+			for(int i = 0; i <= count; i++)
+				messageArray[i].newPos.y += newLineStep;
+		}
+		messageArray.Push(msg);
+	}
+	
+	void DrawMessagesInArray()
+	{
+		int count = messageArray.Size() - 1;
+		for(int i = count; i >= 0; i--) //go through list backwards
+		{
+			PB_HudMessageStorage msg = messageArray[i];
+
+			double animspeed = 0.25 * deltaTime;
+				
+			if(msg.msgStr == "") 
+			{
+				messageArray.Delete(i);
+				msg.Destroy();
+				continue;
+			}
+			
+			if(deltatime >= 1.0)
+			{
+				//if the delta time is too high, just give up
+				//prevents massive text on a lag spike
+				//https://github.com/ValveSoftware/source-sdk-2013/blob/0d8dceea4310fde5706b3ce1c70609d72a38efdf/sp/src/game/server/player.cpp#L8421
+				msg.scale = msg.newscale;
+				msg.pos = msg.newpos;
+			}
+			else
+			{
+				msg.pos.x = Lerp(msg.pos.x, msg.newpos.x, animspeed);
+				msg.pos.y = Lerp(msg.pos.y, msg.newpos.y, animspeed);
+				msg.scale.x = Lerp(msg.scale.x, msg.newscale.x, animspeed);
+				msg.scale.y = Lerp(msg.scale.y, msg.newscale.y, animspeed);
+			}
+			
+			if(!centerNotify)
+				PBHud_DrawString(mBoldFont, string.Format(msg.msgStr), msg.pos, DI_SCREEN_LEFT_TOP | DI_TEXT_ALIGN_LEFT, msg.fontColor, msg.alpha, scale: msg.scale);
+			else
+				PBHud_DrawString(mBoldFont, string.Format(msg.msgStr), msg.pos, DI_SCREEN_CENTER_TOP | DI_TEXT_ALIGN_CENTER, msg.fontColor, msg.alpha, scale: msg.scale);
+				
+			switch(msg.stage)
+			{
+				case 0:
+					if(abs(msg.scale.Length() - msg.newScale.Length()) <= 0.01)
+					{
+						msg.newScale *= 0.9;
+						msg.stage = 1;
+					}
+					msg.alpha = Lerp(msg.alpha, msg.newalpha, animspeed);
+					break;
+				case 1:
+					msg.alpha = 3;
+					msg.stage = 2;
+					break;
+				case 2:
+					msg.alpha -= (msg.alpha <= 1.0 ? 0.02 : 0.005) * deltaTime;
+					if(alpha <= 0) 
+						msg.msgStr = "";
+					break;
+			}
+		}
+	}*/
 
 	override void Tick()
 	{
@@ -185,6 +295,7 @@ class PB_Hud_ZS : BaseStatusBar
         }
 
         dashIndAlpha -= 0.2;
+        flashlightBatteryAlpha -= 0.2;
 
         if(hudDynamics && !automapactive)
             CalculateSway();
@@ -243,8 +354,6 @@ class PB_Hud_ZS : BaseStatusBar
     	}
     }
     
-    
-    
     void CalculateSway() {
         //Limit so it only counts when the player strafes.
         vector3 strafedir = (cos(CPlayer.mo.angle + 90), sin(CPlayer.mo.angle + 90), 0);
@@ -269,8 +378,11 @@ class PB_Hud_ZS : BaseStatusBar
         let PB_Player = PlayerPawnBase(CPlayer.mo);
 
         //Limit and add variables.
-        mSway = clamp(intSway + (PB_Player.XBob * 0.5) - CPlayer.mo.Roll, -8, 8);
-        mPitch = clamp(intPitch + mFallOfs - (PB_Player.YBob * 0.5) + CPlayer.mo.Roll, -8, 8);
+	    if(PB_Player)
+	    {
+	        mSway = clamp(intSway + (PB_Player.XBob * 0.5) - CPlayer.mo.Roll, -8, 8);
+        	mPitch = clamp(intPitch + mFallOfs - (PB_Player.YBob * 0.5) + CPlayer.mo.Roll, -8, 8);
+	    }
 
         //Collect old information.
         mOldAngles = CPlayer.mo.angle;
@@ -287,7 +399,7 @@ class PB_Hud_ZS : BaseStatusBar
         }
     }
 
-    void PBHud_DrawImage(String texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 box = (-1, -1), Vector2 scale = (1, 1), double Parallax = 0.75, double Parallax2 = 0.25) 
+    void PBHud_DrawImage(String texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 box = (-1, -1), Vector2 scale = (1, 1), double Parallax = 0.75, double Parallax2 = 0.25, ERenderStyle style = STYLE_Translucent)
     {
         double IntMSway = mSwayInterpolator.GetValue();
         double IntMPitch = mPitchInterpolator.GetValue();
@@ -330,10 +442,10 @@ class PB_Hud_ZS : BaseStatusBar
             }
         }
 
-        DrawImage(texture, pos, flags, (m0to1Float * Alpha), box, scale);
+        DrawImage(texture, pos, flags, (m0to1Float * Alpha), box, scale, style);
     }
     
-    void PBHud_DrawImageManualAlpha(String texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 box = (-1, -1), Vector2 scale = (1, 1), double Parallax = 0.75, double Parallax2 = 0.25)
+    void PBHud_DrawImageManualAlpha(String texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 box = (-1, -1), Vector2 scale = (1, 1), double Parallax = 0.75, double Parallax2 = 0.25, ERenderStyle style = STYLE_Translucent)
     {
         double IntMSway = mSwayInterpolator.GetValue();
         double IntMPitch = mPitchInterpolator.GetValue();
@@ -360,14 +472,48 @@ class PB_Hud_ZS : BaseStatusBar
             }
         }
 
-        DrawImage(texture, pos, flags, Alpha, box, scale);
+        DrawImage(texture, pos, flags, Alpha, box, scale, style);
     }
+    
+    /*
+    void PBHud_DrawImageRotated(String texture, Vector2 pos, int flags = 0, double Alpha = 1., Vector2 scale = (1, 1), ERenderStyle style = STYLE_Translucent, Color col = 0xffffffff, int translation = 0, double Parallax = 0.75, double Parallax2 = 0.25) 
+    {
+
+        double IntMSway = mSwayInterpolator.GetValue();
+        double IntMPitch = mPitchInterpolator.GetValue();
+        double IntMOfs = mFOffsetInterpolator.GetValue();
+        
+        if(HudDynamics) {    
+            pos.x += IntMSway * Parallax;
+            pos.y -= IntMPitch * Parallax;
+
+            if(pos.x > 0) {
+                pos.x -= (IntMOfs * Parallax2);
+            }
+            
+            if(pos.x < 0) {
+                pos.x += (IntMOfs * Parallax2);
+            }
+            
+            if(pos.y > 0) {
+                pos.y -= (IntMOfs * Parallax2);
+            }
+            
+            if(pos.y < 0) {
+                pos.y += (IntMOfs * Parallax2);
+            }
+        }
+
+        DrawImageRotated(texture, pos, flags, 0, (m0to1Float * Alpha), scale, style, col, translation);
+    }
+    */
 
     void PBHud_DrawString(HUDFont font, String string, Vector2 pos, int flags = 0, int translation = Font.CR_UNTRANSLATED, double Alpha = 1., int wrapwidth = -1, int linespacing = 4, Vector2 scale = (1, 1), double Parallax = 0.75, double Parallax2 = 0.25) 
     {
         double IntMSway = mSwayInterpolator.GetValue();
         double IntMPitch = mPitchInterpolator.GetValue();
         double IntMOfs = mFOffsetInterpolator.GetValue();
+        vector2 basepos = pos;
             
         if(lowresfont && (font != mLowResFont))
         {
@@ -376,13 +522,13 @@ class PB_Hud_ZS : BaseStatusBar
             pos += (0, 2);
         }
 
-        if(pos.x > 0) {
-            pos.x += HUDXMargin;
-        }
-            
-        if(pos.x < 0) {
-            pos.x -= HUDXMargin;
-        }
+	        if(pos.x > 0) {
+	            pos.x += HUDXMargin;
+	        }
+	            
+	        if(pos.x < 0) {
+	            pos.x -= HUDXMargin;
+	        }
         
         if(pos.y > 0) {
 			pos.y += HUDYMargin;
@@ -396,13 +542,13 @@ class PB_Hud_ZS : BaseStatusBar
             pos.x += IntMSway * Parallax;
             pos.y -= IntMPitch * Parallax;
 
-            if(pos.x > 0) {
-                pos.x += (IntMOfs * Parallax2);
-            }
-            
-            if(pos.x < 0) {
-                pos.x -= (IntMOfs * Parallax2);
-            }
+	            if(pos.x > 0) {
+	                pos.x += (IntMOfs * Parallax2);
+	            }
+	            
+	            if(pos.x < 0) {
+	                pos.x -= (IntMOfs * Parallax2);
+	            }
             
             if(pos.y > 0) {
                 pos.y += (IntMOfs * Parallax2);
@@ -527,6 +673,29 @@ class PB_Hud_ZS : BaseStatusBar
         }
 
         DrawTexture(texture, pos, flags, (m0to1Float * Alpha), box, scale);
+    }
+    
+    void PBHud_DrawSpecialMugshot()
+    {
+    	int mugflags; 
+		string mug;
+
+		if(customPBMugshot)
+		{
+			mugflags = MugShot.ANIMATEDGODMODE | MugShot.XDEATHFACE | MugShot.CUSTOM;
+				
+			if(cplayer.mo.FindInventory("PowerInvisibility",true) || cplayer.mo.bSHADOW)
+				mug = isInvulnerable() ? "SGI" : "SCI";
+			else 
+				mug = isInvulnerable() ? "SGD" : "SFC";
+		}
+		else 
+		{ 
+			mugflags = MugShot.STANDARD; 
+			mug = "STF"; 
+		}
+			
+		PBHud_DrawTexture(GetMugShot(5, mugflags, mug), (25, -65), DI_ITEM_OFFSETS, scale: (1.25, 1.25));
     }
     
     ////////////////////////////////////
@@ -810,17 +979,26 @@ class PB_Hud_ZS : BaseStatusBar
                     PBHud_DrawImageManualAlpha("HUDT2POF", (35 + m32to0, -9 - m32to0) , DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP, cplayer.mo.cursector.lightlevel / 255.0, scale: (0.7, 0.7));  
                    	PBHud_DrawImageManualAlpha("HUDBOT2F", (35 + m32to0, 9 + m32to0) , DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM, cplayer.mo.cursector.lightlevel / 255.0, scale: (0.7, 0.7));
                     
-                    PBHud_DrawImageManualAlpha("HUDTFLAR", (-35 - m32to0, -9 - m32to0) , DI_SCREEN_LEFT_TOP|DI_ITEM_LEFT_TOP, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7));  
+                    PBHud_DrawImageManualAlpha("HUDTFLAR", (-35 - m32to0, -9 - m32to0) , DI_SCREEN_LEFT_TOP|DI_ITEM_LEFT_TOP, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7), style: STYLE_Add);  
 
-                    PBHud_DrawImageManualAlpha("HUDBFLAR", (-35 - m32to0, 9 + m32to0) , DI_SCREEN_LEFT_BOTTOM|DI_ITEM_LEFT_BOTTOM, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7));
+                    PBHud_DrawImageManualAlpha("HUDBFLAR", (-35 - m32to0, 9 + m32to0) , DI_SCREEN_LEFT_BOTTOM|DI_ITEM_LEFT_BOTTOM, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7), style: STYLE_Add);
 
-                    PBHud_DrawImageManualAlpha("HUDTFLA2", (35 + m32to0, -9 - m32to0) , DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7));  
-                   	PBHud_DrawImageManualAlpha("HUDBFLA2", (35 + m32to0, 9 + m32to0) , DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7));
+                    PBHud_DrawImageManualAlpha("HUDTFLA2", (35 + m32to0, -9 - m32to0) , DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7), style: STYLE_Add);  
+                   	PBHud_DrawImageManualAlpha("HUDBFLA2", (35 + m32to0, 9 + m32to0) , DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM, m0to1float * ( 1.0 - (cplayer.mo.cursector.lightlevel / 255.0)), scale: (0.7, 0.7), style: STYLE_Add);
                     
-                    PBHud_DrawImageManualAlpha("HUDTOP", (-35, -9) , DI_SCREEN_LEFT_TOP|DI_ITEM_LEFT_TOP, m0to1Float, scale: (0.7, 0.7));  
-                    PBHud_DrawImageManualAlpha("HUDBOTOM", (-35, 9) , DI_SCREEN_LEFT_BOTTOM|DI_ITEM_LEFT_BOTTOM, m0to1Float, scale: (0.7, 0.7));   
-                    PBHud_DrawImageManualAlpha("HUDT2P", (35, -9), DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP, m0to1Float, scale: (0.7, 0.7));  
-                    PBHud_DrawImageManualAlpha("HUDBOT2M", (35, 9) , DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM, m0to1Float, scale: (0.7, 0.7));
+                    /* offsets looked a bit off, would love to revisit this sometime as it does look better
+                    
+                    PBHud_DrawImageRotated("HUDTOP", (-35, -9), DI_SCREEN_LEFT_TOP|DI_ITEM_LEFT_TOP, m0to1Float, (0.7, 0.7), STYLE_Add);  
+                    PBHud_DrawImageRotated("HUDBOTOM", (-35, 9), DI_SCREEN_LEFT_BOTTOM|DI_ITEM_LEFT_BOTTOM, m0to1Float, (0.7, 0.7), STYLE_Add);     
+                    PBHud_DrawImageRotated("HUDT2P", (35, -9), DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP, m0to1Float, (0.7, 0.7), STYLE_Add);  
+                    PBHud_DrawImageRotated("HUDBOT2M", (35, 9), DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM, m0to1Float, (0.7, 0.7), STYLE_Add)
+                    ); 
+                    */
+                    
+                    PBHud_DrawImageManualAlpha("HUDTOP", (-35, -9) , DI_SCREEN_LEFT_TOP|DI_ITEM_LEFT_TOP, m0to1Float, scale: (0.7, 0.7), style: STYLE_Add);  
+                    PBHud_DrawImageManualAlpha("HUDBOTOM", (-35, 9) , DI_SCREEN_LEFT_BOTTOM|DI_ITEM_LEFT_BOTTOM, m0to1Float, scale: (0.7, 0.7), style: STYLE_Add);   
+                    PBHud_DrawImageManualAlpha("HUDT2P", (35, -9), DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP, m0to1Float, scale: (0.7, 0.7), style: STYLE_Add);  
+                    PBHud_DrawImageManualAlpha("HUDBOT2M", (35, 9) , DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM, m0to1Float, scale: (0.7, 0.7), style: STYLE_Add);
                 }
             }
 
@@ -886,21 +1064,27 @@ class PB_Hud_ZS : BaseStatusBar
             
             PBHud_DrawString(mBoldFont, Formatnumber(svpr), (89.8, -41), DI_TEXT_ALIGN_CENTER, Font.CR_WHITE, scale: (0.8, 0.8));
             
+            let flPointer = PB_FPP_Holder(CPlayer.mo.FindInventory("PB_FPP_Holder"));
+            
+            if(flPointer)
+            {
+            	PBHud_DrawImage(flPointer.flOutOfBatteryPenalty ? "FLSHBATL" : "FLSHBATT", (103, -12), DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM, playerBoxAlpha * clamp(flashlightBatteryAlpha, 0.0, 1.0));
+            	PBHud_DrawBar(flPointer.flOutOfBatteryPenalty ? "FLSHBBAL" : "FLSHBBAR", "FLSHBBRG", flPointer.flashlightCharge, flPointer.flashlightChargeMax, (122, -15), 0, 0, DI_ITEM_LEFT_BOTTOM | DI_SCREEN_LEFT_BOTTOM, clamp(flashlightBatteryAlpha, 0.0, 1.0), slanted: false);
+            	
+            	if((flPointer.flashlightCharge < flPointer.flashlightChargeMax && flashlightBatteryAlpha < 1) || flPointer.on)
+            		flashlightBatteryAlpha = 10.0;
+            }
+            
             //Mugshot
             PBHud_DrawImage("EQUPBO", (16, -17), DI_SCREEN_LEFT_BOTTOM | DI_ITEM_LEFT_BOTTOM, playerBoxAlpha);
             
-            PBHud_DrawTexture(GetMugShot(5), (25, -65), DI_ITEM_OFFSETS, scale: (1.25, 1.25));
+            PBHud_DrawSpecialMugshot();
             
             //Powerups
             PB_DrawPowerups((16, -76));
             
-            if(keyamount > 0)
-                doKeyBox = true;
-            else
-                doKeyBox = false;
-
             //Keys
-            if(doKeyBox)
+            if(keyamount > 0)
                 PBHud_DrawImage("KEYCRBOX", (-15, 17), DI_SCREEN_RIGHT_TOP | DI_ITEM_RIGHT_TOP, playerBoxAlpha);
 				
 			DrawKeys((-36, 38), 12, 15);
@@ -925,6 +1109,8 @@ class PB_Hud_ZS : BaseStatusBar
 				PBHud_DrawImage("1SECRET", (26, 56), DI_SCREEN_LEFT_TOP | DI_ITEM_LEFT_TOP, scale: (0.2, 0.2));
 				PBHud_DrawString(mBoldFont, FormatNumber(Level.found_secrets,0,5).." / "..FormatNumber(Level.total_secrets,0,5), (35, 55), 0, Font.CR_PURPLE, scale: (0.6, 0.6));
 			}
+			
+			//DrawMessagesInArray();
 			
             if(CPlayer.Health <= 0) 
             {
@@ -1255,3 +1441,30 @@ class PB_Hud_ZS : BaseStatusBar
         }
     }
 }
+
+/*class PB_HudMessageStorage ui
+{
+	vector2 pos, newPos, scale, newScale;
+	double alpha, newAlpha;
+	string msgStr;
+	int stage;
+	int fontColor;
+	
+	static PB_HudMessageStorage Init(string message, double malpha, vector2 mpos, EPrintLevel printlevel, vector2 mscale = (1, 1), class<PB_HudMessageStorage> storageClass = "PB_HudMessageStorage")
+	{
+		PB_HudMessageStorage msg = PB_HudMessageStorage(new(storageClass));
+		if(msg) {
+			msg.newAlpha = malpha;
+			msg.msgStr = message;
+			msg.newPos = mpos;
+			msg.newScale = mscale;
+			
+			if(printlevel <= 4)
+				msg.fontColor = CVar.GetCVar("msg"..String.Format("%i", printlevel).."color").GetInt();
+			else
+				msg.fontColor = 0;
+		}
+		
+		return msg;
+	}
+}*/
