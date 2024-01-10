@@ -1,0 +1,54 @@
+class PB_12GAPellet : PB_Projectile
+{
+	Default
+	{
+		PB_Projectile.BaseDamage 15;
+		PB_Projectile.RipperCount 2;
+		Damagetype "Shotgun";
+		Obituary "%o had %p shit removed and thrown on the floor by %k.";
+	}
+}
+
+class PB_12GASlug : PB_Projectile
+{
+	Default
+	{
+		PB_Projectile.BaseDamage 125;
+		PB_Projectile.RipperCount 3;
+		Damagetype "Shotgun";
+		Obituary "%o had %p guts blown out by %k.";
+	}
+}
+
+class PB_10GAPellet : PB_Projectile
+{
+	Default
+	{
+		PB_Projectile.BaseDamage 30;
+		PB_Projectile.RipperCount 3;
+		Damagetype "Shotgun";
+		Obituary "%o had %p arms blown off by %k.";
+	}
+}
+
+class PB_10GAPellet_LP : PB_Projectile
+{
+	Default
+	{
+		PB_Projectile.BaseDamage 30;
+		PB_Projectile.RipperCount 3;
+		Damagetype "SSG";
+		Obituary "%o was blown up inside out by %k.";
+	}
+}
+
+class PB_8GAPellet : PB_Projectile
+{
+	Default
+	{
+		PB_Projectile.BaseDamage 35;
+		PB_Projectile.RipperCount 4;
+		Damagetype "SSG";
+		Obituary "%o was turned into a fine red mist by %k.";
+	}
+}

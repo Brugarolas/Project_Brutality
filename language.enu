@@ -361,10 +361,17 @@ PB_RESPECT = "Weapon Respect animations";
 PB_DUALSTYLE = "Dual-Wield Fire Mode";
 PB_DUALSTYLE_SIN = "Single Button - Primary fire button fires both weapons, similar to BDv21.";
 PB_DUALSTYLE_DEF = "Default - Primary fire: Fire left weapon, Alt-fire: Fire right weapon.";
+PB_DUALSTYLE_INV = "Inverted - Primary fire: Fire right weapon, Alt-fire: Fire left weapon.";
 PB_DUALOPT_SN = "Single Button";
 PB_DUALOPT_DEF = "Default";
+PB_DUALOPT_INV = "Inverted";
 
 //Cryo Rifle Warmup speed option
 PB_CRYO_DEF = "Default";
 PB_CRYO_FST = "Fast";
+PB_CRYO_CLS = "Classic (Instant)";
+
+//SSG random spawn
+PB_SSG_RNDSPWN = "SSG-class weapons randomly replace Pump Shotgun";
+
 PB_CRYO_CLS = "Classic (Instant)";

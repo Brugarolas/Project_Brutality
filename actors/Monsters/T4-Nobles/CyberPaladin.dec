@@ -1,4 +1,4 @@
-ACTOR PB_CyberPaladin replaces Hellknight
+ACTOR PB_CyberPaladin //Replaces HellKnight
 {
 	//$Title Cyber Paladin
 	//$Category Project Brutality - Monsters/Hell Nobles
@@ -47,13 +47,25 @@ ACTOR PB_CyberPaladin replaces Hellknight
 	ActiveSound "Paladin/Active"
     Species "Noble"
 	
-	DropItem "DemonStrengthRune" 7
-	DropItem "HasteSphere" 6
-	DropItem "DoubleSphere" 5
+	
+	DropItem "PB_Haste" 6
+	DropItem "PB_DoomSphere" 5
 	DropItem "Demonpickup2" 90
     DropItem "Demonpickup" 196
 	States
 	{ 
+	Death.Execution:
+			TNT1 A 0 {
+	// 			A_Stop;
+				A_Stopsound;
+				A_FaceTarget;
+				A_NoBlocking;
+			}
+			HPAL MN 4 
+			TNT1 A 0 A_Pain
+			HPAL P 21
+			TNT1 A 0 A_Recoil(4)
+			Goto Death.SSG
 	
 		Death.Blackhole:
         TNT1 A 0 A_NoBlocking
@@ -61,6 +73,7 @@ ACTOR PB_CyberPaladin replaces Hellknight
 		Stop
 		
 		  Death.Shrink:
+		TNT1 A 0 A_BossDeath
 		TNT1 A 1 A_PlaySound("Shrink", 3)
 		TNT1 A 0 A_SpawnItemEx ("CyberPaladinShrinkFX1", 0, 0,  5, 0, 0)
 		TNT1 A 1 A_SpawnItemEx ("CyberPaladinShrinkFX2", 0, 0, 5, 0, 0)
@@ -509,7 +522,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 		
 	XDeath:
 		TNT1 A 0 A_JumpIfInTargetInventory("SSGSelected", 1, "Death.SSG")
-		TNT1 A 0 A_SpawnItemEx ("BarrelKaboom",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
+		TNT1 A 0 A_BossDeath
+        TNT1 A 0 A_SpawnItemEx ("BarrelKaboom",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
 		HPLX A 0 A_PlaySound("Paladin/XDeath",1)
 		HPLX B 0 Bright A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
 		TNT1 A 0 A_SpawnItemEx ("BarrelKaboom",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
@@ -539,7 +553,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 		TNT1 A 0 A_Jump(255, "Death.ExplosiveImpact1")
 	
 	Death.ExplosiveImpact1:
-		TNT1 A 0 A_StopSound(5)
+		TNT1 A 0 A_BossDeath
+        TNT1 A 0 A_StopSound(5)
 		CP9L B  8 A_NoBlocking
 		CP9L CCCCCC  8 A_CheckFloor("Land1")
 		Goto Land1
@@ -557,7 +572,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 		TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
 		TNT1 A 0 A_NoBlocking
 		TNT1 A 0 A_Jump(12, "Death.Blast")
-		TNT1 A 0 A_CustomMissile ("XDeathCyberKnightTorso", 32, 0, random (0, 360), 2, random (0, 160))
+		TNT1 A 0 A_BossDeath
+        TNT1 A 0 A_CustomMissile ("XDeathCyberKnightTorso", 32, 0, random (0, 360), 2, random (0, 160))
 		TNT1 A 0 A_CustomMissile ("XDeathCyberKnightArm", 32, 0, random (0, 360), 2, random (0, 160))
 		TNT1 A 0 A_CustomMissile ("XDeathCyberPaladinHead", 62, 0, random (0, 360), 2, random (0, 160))
 		TNT1 AAAA 0 A_CustomMissile ("XDeath1", 62, 0, random (0, 360), 2, random (0, 160))
@@ -571,7 +587,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 	Death.Blast:
 		TNT1 A 0 A_Jump(96, "Blast2")
 		TNT1 A 0 
-		TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
+		TNT1 A 0 A_BossDeath
+        TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
 		TNT1 A 0 A_NoBlocking
 		TNT1 A 0 A_CustomMissile ("XDeathCyberKnightTorso", 32, 0, random (0, 360), 2, random (0, 160))
 		TNT1 A 0 A_CustomMissile ("XDeathCyberKnightArm", 32, 0, random (0, 360), 2, random (0, 160))
@@ -588,7 +605,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 		
 	Blast2:
 		TNT1 A 0 
-		TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
+		TNT1 A 0 A_BossDeath
+        TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
 		TNT1 A 0 A_NoBlocking
 		TNT1 AAA 0 A_CustomMissile ("XDeath1", 32, 0, random (0, 360), 2, random (0, 160))
 		TNT1 AA 0 A_CustomMissile ("XDeath2", 39, 0, random (0, 360), 2, random (0, 160))
@@ -604,7 +622,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 	Death.Cut:
 	Death.Tear:
 		TNT1 A 0 
-		TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
+		TNT1 A 0 A_BossDeath
+        TNT1 A 0 A_SpawnItemEx("PaladinShield", 0, 0, 25, 6, 0, 0, 60, SXF_SETMASTER|SXF_CLIENTSIDE)
 		TNT1 A 0 A_NoBlocking
 		TNT1 A 0 A_CustomMissile ("XDeathCyberPaladinRipped", 48, 0, random (0, 360), 2, random (0, 160))
 		TNT1 AA 0 A_CustomMissile ("XDeath1", 62, 0, random (0, 360), 2, random (0, 160))
@@ -628,7 +647,8 @@ ACTOR PB_CyberPaladin replaces Hellknight
 	Death.SuperPlasma:
     Death.Plasma:
 	Death.Plasma2:
-		TNT1 AAAAAAAAAAAAAAAAAA 0 A_CustomMissile ("Ashes1", 32, 0, random (0, 360), 2, random (0, 180))
+		TNT1 A 0 A_BossDeath
+        TNT1 AAAAAAAAAAAAAAAAAA 0 A_CustomMissile ("Ashes1", 32, 0, random (0, 360), 2, random (0, 180))
 		TNT1 AAAAAAAAAAAAAAAAAA 0 A_CustomMissile ("Ashes2", 32, 0, random (0, 360), 2, random (0, 180))
         TNT1 AAAAA 0 A_CustomMissile ("Brutal_FlyingBlood", 50, 0, random (0, 360), 2, random (0, 160))
 		TNT1 AAAAA 0 A_CustomMissile ("PlasmaParticleX", 48, 0, random (0, 360), 2, random (0, 360))
@@ -741,10 +761,8 @@ ACTOR PaladinGrenade
 		TNT1 A 0 A_Stop
 		MISL B 0 Bright A_Explode(25, 88)//originally random(25,29) 70
 		EXPL A 0 Radius_Quake (3, 16, 0, 15, 0)//(intensity, duration, damrad, tremrad, tid)
-		TNT1 A 0 A_SpawnItem ("BigRicoChet", 0, -30)
         TNT1 A 0 A_SpawnItemEx ("DetectFloorCrater",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
 	    TNT1 A 0 A_SpawnItemEx ("DetectCeilCrater",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
-	    TNT1 A 0 A_SpawnItemEx ("UnderwaterExplosion",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
         TNT1 A 0 A_SpawnItemEx ("ExplosionFlareSpawner",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
 		TNT1 AAAAAAAAA 0 A_CustomMissile ("ExplosionParticleHeavy", 0, 0, random (0, 360), 2, random (0, 180))
         TNT1 AAAAAAAAAAAAAAAAAA 0 A_CustomMissile ("ExplosionParticleHeavy", 0, 0, random (0, 360), 2, random (0, 360))
@@ -875,7 +893,7 @@ Actor PaladinShieldFade
 
 Actor Vanilla_CyberPaladin : PB_CyberPaladin
 {
-	DropItem "DemonStrengthRune" 6
+	
 	States
 	{
 		Spawn:

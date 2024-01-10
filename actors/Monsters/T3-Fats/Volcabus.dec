@@ -1,11 +1,11 @@
-Actor PB_Volcabus : Fatso replaces Fatso
+Actor PB_Volcabus : Fatso //replaces Fatso
 {
 	//$Title Vulcabus
 	//$Category Project Brutality - Monsters/Mancubi
 	//$Sprite FAT2B1E1
-	Health 1050
-	Radius 52
-	Height 68
+	Health 1100
+	Radius 48
+	Height 64
 	Scale 1.15
 	Mass 1000
 	Game Doom
@@ -31,9 +31,9 @@ Actor PB_Volcabus : Fatso replaces Fatso
 	damagefactor "Blood", 0.0 damagefactor "BlueBlood", 0.0 damagefactor "GreenBlood", 0.0
     damagefactor "HEAD", 3
 	damagefactor "TeleportRemover", 0.0
-	DropItem "DemonStrengthRune" 5
-	DropItem "HasteSphere" 4
-	DropItem "DoubleSphere" 4
+	
+	DropItem "PB_Haste" 4
+	DropItem "PB_DoomSphere" 4
 	Species "BigFatAss"
 	+DONTHARMSPECIES
     +DONTHARMCLASS
@@ -45,6 +45,17 @@ Actor PB_Volcabus : Fatso replaces Fatso
    
    States
    {
+   Death.Execution:
+		TNT1 A 0 {
+ 			A_Stopsound;
+			A_FaceTarget;
+			A_NoBlocking;
+		}
+		FAT2 AG 4 
+		TNT1 A 0 A_Pain
+		FAT2 J 21
+		TNT1 A 0 A_Recoil(4)
+		Goto XDeath
    
    //For Project Brutality
    Death.Blackhole:
@@ -229,10 +240,7 @@ Actor PB_Volcabus : Fatso replaces Fatso
 		TNT1 A 0 A_CustomMissile("CyberStep",10,0,0,0)
 		TNT1 AA 0 A_CustomMissile("VolcabusStomp",10,0,0,0)
 		TNT1 A 0 A_SpawnItemEx("VolcabusStompEffects",0,0,5,0,0,0)
-		TNT1 A 0 A_SpawnItemEx("CyberStepAttack",0,0,5,0,0,0)
-		TNT1 A 0 A_CustomMissile("BigRicoChet")
         TNT1 A 0 A_SpawnItemEx ("DetectFloorCrater",0,0,0,0,0,0,0,SXF_NOCHECKPOSITION,0)
-		TNT1 A 0 A_SpawnItem ("BigRicoChet", 0, -30)
 		TNT1 A 0 A_Stop
 		FATO BA 4 A_FaceTarget
 		Goto See
@@ -678,9 +686,8 @@ Spawn:
       Stop
 }}
 
-Actor Vanilla_Volcabus : PB_Volcabus Replaces Fatso
+Actor Vanilla_Volcabus : PB_Volcabus //replaces Fatso
 {
-	DropItem "DemonStrengthRune" 15
 	States
 	{
 		Spawn:
