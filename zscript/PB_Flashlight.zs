@@ -1,7 +1,23 @@
-//Adapted from Flashlight++, available at https://forum.zdoom.org/viewtopic.php?t=75585
+/* Flashlight++, an extended version of Flashlight+ with extra customizability.
+Copyright (C) 2024  generic name guy
 
-//Light
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Lesser General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>. */
+
+// Modified version of Flashlight++, available at https://forum.zdoom.org/viewtopic.php?t=75585
+// Adapted for Project Brutality by generic name guy
+
+// Light
 class PB_FPP_Light : Spotlight
 {
 	Default 
@@ -21,7 +37,7 @@ class PB_FPP_Light : Spotlight
 	const spInnerAngle = 35.0;
 	const spOuterAngle = 40.0;
 	
-	const sp2Intensity = 584.0;
+	const sp2Intensity = /*584.0*/ 256.0;
 	const sp2InnerAngle = 0.0;
 	const sp2OuterAngle = 30.0;
 	
@@ -111,8 +127,7 @@ class PB_FPP_Light : Spotlight
 	}
 }
 
-//Holder
-
+// Holder
 class PB_FPP_Holder : Inventory 
 {
 	PB_FPP_Light light1;
@@ -359,8 +374,7 @@ class PB_FPP_Holder : Inventory
 	}
 }
 
-//Handler
-
+// Handler
 extend class PB_EventHandler
 {
 	PB_FPP_Holder setupFlashlightHolder(PlayerPawn p)
@@ -370,3 +384,23 @@ extend class PB_EventHandler
 		return holder;
 	}
 }
+
+/*
+Copyright (c) 2024 generic name guy
+
+This software is provided 'as-is', without any express or implied
+warranty. In no event will the authors be held liable for any damages
+arising from the use of this software.
+
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it
+freely, subject to the following restrictions:
+
+1. The origin of this software must not be misrepresented; you must not
+   claim that you wrote the original software. If you use this software
+   in a product, an acknowledgment in the product documentation would be
+   appreciated but is not required.
+2. Altered source versions must be plainly marked as such, and must not be
+   misrepresented as being the original software.
+3. This notice may not be removed or altered from any source distribution.
+*/
