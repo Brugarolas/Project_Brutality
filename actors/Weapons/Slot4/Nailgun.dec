@@ -59,7 +59,7 @@ Weapon.BobSpeed 2.4
 //Weapon.SelectionOrder 2800
 Weapon.AmmoType1 "NewClip"
 Weapon.AmmoType2 "PB_NailgunAmmo"
-Weapon.AmmoGive 30
+Weapon.AmmoGive 10
 Weapon.AmmoUse1 0
 Weapon.AmmoUse2 0
 	+FLOORCLIP

@@ -3,10 +3,10 @@ ACTOR BulletCartridge : PistolBullets
 	//$Title Low Caliber Cartridge
 	//$Category Ammunition
 	Game Doom
-	Inventory.Amount 15
+	Inventory.Amount 8
 	scale 0.13
 	Inventory.MaxAmount 200
-	Ammo.BackpackAmount 55
+	Ammo.BackpackAmount 8
 	Ammo.BackpackMaxAmount 400
 	Inventory.PickupMessage "Picked up a Low Caliber Magazine."
 	Inventory.PickupSound "misc/clip_PickUp"
@@ -24,10 +24,7 @@ ACTOR BulletKit : PistolBullets
 	Scale 0.13
 	Inventory.PickupMessage "Picked up a Box of Low Caliber rounds."
 	Inventory.PickupSound "CBOXPKUP"
-	Inventory.Amount 60
-	Inventory.MaxAmount 200
-	Ammo.BackpackAmount 60
-	Ammo.BackpackMaxAmount 400
+	Inventory.Amount 24
 	+DONTGIB
 	+FLOORCLIP
 	States

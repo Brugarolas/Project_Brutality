@@ -7,7 +7,7 @@ Weapon.BobRangeX 0.3
 	Weapon.BobSpeed 2.0
 	Game Doom
 Weapon.SelectionOrder 2900
-Weapon.AmmoGive 100
+Weapon.AmmoGive 30
 Weapon.AmmoUse 100
 Weapon.AmmoUse2 100
 Weapon.AmmoType "Cell"

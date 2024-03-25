@@ -5,10 +5,10 @@ ACTOR NewShell : Ammo Replaces Shell
 	+FLOORCLIP
 	+DONTGIB
 	+INVENTORY.IGNORESKILL //To make unloading work properly
-	Inventory.Amount 4
+	Inventory.Amount 3
 	Inventory.MaxAmount 50
 	Inventory.Icon "SHELA0"
-	Ammo.BackpackAmount 4
+	Ammo.BackpackAmount 3
 	scale 0.14
 	Ammo.BackpackMaxAmount 100
 	States
@@ -23,11 +23,8 @@ ACTOR NewShellBox : NewShell
 {
 	Inventory.PickUpSound "misc/shellbox_PickUp"
 	Inventory.PickupMessage "Picked up a box of Shotgun Shells."
-	Inventory.Amount 12
-	Inventory.MaxAmount 50
-	Ammo.BackpackAmount 12
+	Inventory.Amount 8
 	scale 0.25
-	Ammo.BackpackMaxAmount 100
 	States
 	{
 	Spawn:

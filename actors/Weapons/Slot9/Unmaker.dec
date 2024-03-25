@@ -49,8 +49,8 @@ ACTOR PB_Unmaker : PB_Weapon
 	Weapon.SelectionOrder 1800
 	Weapon.AmmoUse1 0
 	Weapon.AmmoUse2 0
-	Weapon.AmmoGive1 200
-	Weapon.AmmoGive2 200
+	Weapon.AmmoGive1 50
+	Weapon.AmmoGive2 50
 	Weapon.AmmoType1 "Gas"
 	Weapon.AmmoType2 "Demonpower"
     Inventory.PickupSound "UNMPCK"

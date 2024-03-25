@@ -9,7 +9,7 @@ actor PB_BFGBeam : PB_Weapon
   radius 20
   height 16
   Weapon.AmmoUse 1
-  Weapon.AmmoGive 40
+  Weapon.AmmoGive 20
   Weapon.AmmoType1 "Cell"
   DamageType Desintegrate
     +WEAPON.NOAUTOAIM

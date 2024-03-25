@@ -8,9 +8,9 @@ ACTOR NewClip : Ammo //Replaces Clip
 	+FLOORCLIP
 	Inventory.PickUpMessage "Picked up a High Caliber Magazine"
 	Inventory.PickUpSound "misc/clip_PickUp"
-	Inventory.Amount 15
+	Inventory.Amount 10
     Inventory.MaxAmount 300
-    Ammo.BackpackAmount 15
+    Ammo.BackpackAmount 10
     Ammo.BackpackMaxAmount 600
     Inventory.Icon "CLIPA0"
 	+INVENTORY.IGNORESKILL //To make unloading work properly
@@ -28,10 +28,7 @@ ACTOR NewClipBox : NewClip
 	Scale 0.18
 	Inventory.PickupMessage "Picked up a Box of High Caliber Bullets."
 	Inventory.PickupSound "CBOXPKUP"
-	Inventory.Amount 60
-    Inventory.MaxAmount 300
-    Ammo.BackpackAmount 50
-    Ammo.BackpackMaxAmount 600
+	Inventory.Amount 30
 	Inventory.Icon "CLIPA0"
 	+DONTGIB
 	+FLOORCLIP

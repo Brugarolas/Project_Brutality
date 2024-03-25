@@ -87,7 +87,7 @@ ACTOR PB_SuperGL: PB_Weapon
 	Weapon.AmmoUse1 0
 	Weapon.AmmoUse2 0
 	Weapon.AmmoGive2 0
-	Weapon.AmmoGive1 6
+	Weapon.AmmoGive1 1
 	Weapon.AmmoType1 "RocketAmmo" // Grenade launcher will share same ammo as rocket launcher
 	Weapon.AmmoType2 "GrenadeRounds"
     Inventory.PickupSound "misc/rockboxa"

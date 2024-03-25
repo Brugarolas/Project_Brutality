@@ -107,7 +107,7 @@ ACTOR PB_M2Plasma : PB_Weapon //12222
 	Weapon.BobSpeed 2.4
 	Weapon.SelectionOrder 100
 	Weapon.AmmoUse1 0
-	Weapon.AmmoGive1 50
+	Weapon.AmmoGive1 10
 	Weapon.AmmoUse2 0
 	Weapon.AmmoGive2 0
     Inventory.PickupSound "PLSDRAW"

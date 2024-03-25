@@ -67,7 +67,7 @@ ACTOR PB_Railgun : PB_Weapon
   //  damagetype SSG
 	Weapon.AmmoUse1 0
 	Weapon.AmmoUse2 0
-	Weapon.AmmoGive1 50
+	Weapon.AmmoGive1 20
 	Weapon.AmmoGive2 0
 	Weapon.AmmoType1 "Cell"
 	Weapon.AmmoType2 "RailgunAmmo"
