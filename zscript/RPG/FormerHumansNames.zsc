@@ -1,0 +1,287 @@
+mixin class PB_RandomZombieNameHandler {
+    static const String PB_ZombiemanFirstNames[] = {
+        "John",
+		"Jeff",
+		"Chris",
+		"Marcus",
+		"Donovan",
+		"Dominic",
+		"Johnny",
+        "Ivarr",
+		"Tyrone",
+        "Earl",
+		"Ashton",
+        "Barry",
+        "Edward",
+		"Bob",
+        "Wallace",
+		"Robert",
+        "Terry",
+        "Adolf",
+        "Billy",
+        "Vincent",
+        "Tyrone",
+        "Felix",
+        "Blair",
+        "Brian",
+        "Kevin",
+        "Larry",
+        "Neil",
+        "Marvin",
+        "Bruno",
+        "Greg",
+		"Patrick",
+		"Richard",
+        "Brock",
+        "Derrick",
+        "Harris",
+        "Eric",
+        "Brody",
+        "Allan",
+		"Daniel",
+        "Bart",
+        "Otto",
+        "Ryan",
+		"Michael",
+        "Gordon",
+        "Phillip",
+        "Xavier",
+        "Zeke",
+        "Ernie",
+        "Iggy",
+		"Brad",
+        "Quentin",
+        "Reggie",
+        "Stephen",
+        "Walter",
+        "Edgar",
+        "Jeff",
+        "Kenny",
+        "David",
+        "Elton",
+        "Willy",
+        "Elvis",
+		"Jason",
+        "Gerald",
+		"Brandon",
+		"Jared",
+		"Art",
+		"Andrew",
+		"Harrison",
+		"Kevin",
+		"Carl",
+		"Adrian",
+        "Andrew",
+        "Seymour",
+        "Calvin"
+    };
+    
+    static const String PB_ZombiemanLastNames[] = {
+        "Doe",
+		"Ortega",
+		"Ramirez",
+		"Fernandez",
+		"Price",
+		"Huff",
+		"Barley",
+		"Jones",
+		"Johnson",
+		"Cliffe",
+		"Williams",
+		"Jordan",
+        "Clarke",
+		"Martinez",
+        "Armstrong",
+		"Jackson",
+        "Gutierrez",
+		"Hernandez",
+		"Prince",
+        "Tanzarian"
+        "Madrid",
+		"Lincoln",
+        "Bailey",
+		"Culkin",
+        "Freeman",
+		"Miller",
+        "Harris",
+        "Taylor",
+        "Smith",
+        "Robinson",
+		"Gonzalez",
+        "Allen",
+		"White",
+        "Ramirez"
+		"Johnson",
+        "Crusoe",
+        "Bruga",
+        "Adams",
+		"Brown",
+        "Thompson",
+		"Taylor",
+		"Carmack",
+        "Skinner",
+        "Hughes",
+        "Wright",
+        "Klein",
+        "Ford"
+    };
+
+	static const String PB_CivvieRanks[] = {
+        "Visitor",
+        "Maintenance",
+        "Watchman",
+        "Mechanic",
+		"Electrician",
+		"Engineering",
+        "Construction",
+        "Medicine",
+        "Industry",
+		"IT Tech",
+        "Chef",
+        "Architect",
+        "Team Lead",
+        "Human Resources",
+        "Contratist"
+    };
+
+    static const String PB_ZombiemanRanks[] = {
+        "SLT",
+        "CFN",
+        "RGR",
+        "TPR",
+        "PFC",
+		"SPC",
+		"CPL",
+		"SGT",
+        "SSG",
+        "LCP",
+        "AMN",
+        "A1C",
+        "SRA",
+        "TSGT",
+        "SSGT",
+		"MSG",
+		"CSM",
+        "SFC",
+		"LT",
+        "LTG",
+        "MG",
+        "BG",
+        "MSG",
+        "1LT",
+        "2LT",
+		"CPT",
+		"MAJ",
+        "SGM",
+        "BRIG",
+		"COL",
+        "LT COL",
+        "CSM",
+        "SMA",
+        "SEAC",
+		"GEN",
+        "GAF",
+        "FM"
+    };
+
+	static const String PB_ScientistRanks[] = {
+        "Trainee",
+        "Junior",
+		"Intern",
+        "Analyst",
+        "Senior",
+		"Doctor",
+        "Professor",
+        "Chief"
+    };
+
+    static const String PB_ScientistAreas[] = {
+        "Chemistry Dept.",
+        "Physics Dept.",
+        "Medical Dept.",
+        "Architecture Dept.",
+        "Biology Dept.",
+        "Defense Dept.",
+        "Naval Dept.",
+        "IT Dept.",
+        "Astro-Physics Dept.",
+        "Geology Dept.",
+        "Communications Dept.",
+        "Energy Dept.",
+        "Industry Dept.",
+        "Robotics Dept.",
+        "AI Dept.",
+        "Neuro Science Dept.",
+        "Engineering Dept.",
+        "Psychology Dept.",
+        "Ethical Committee" // Sorry guys, ethical committees are mandatory since the Art 506/2034 of the Phobos Convention
+    };
+
+	static const String PB_CultistRanks[] =  {
+        "Cultist",
+		"Templar",
+		"Priest",
+		"Inquisitor",
+		"Wizard",
+		"Lord",
+        "Zealot",
+        "Berserker",
+        "Sorcerer",
+        "Warlock",
+        "Necromancer",
+        "High Priest",
+        "High Inquisitor",
+        "High Wizard",
+        "High Lord",
+        "High Zealot",
+        "Spiritist",
+        "Demonologist",
+        "Dark Wizard",
+        "Dark Servant",
+        "Dark Lord",
+		"Grand Master",
+		"Grand Mage",
+		"Grand Inquisitor",
+		"Grand Lord",
+        "Grand Zealot",
+		"Shadow Wizard"
+    };
+
+	Enum EFormerHumanRanks {
+		RANK_CIVILIAN,
+		RANK_MILITARY,
+		RANK_CULTIST,
+		RANK_DOKTOR,
+	}
+
+    // Put in monster's PostBeginPlay() virtual
+    void GenerateHumanRandomName(EFormerHumanRanks rankType = RANK_MILITARY) { //0 civvie, 1 military, 2 cultists, 3 DOKTOR (that is turning off my pain inhibitors)
+		string mRank;
+		switch(rankType) {
+			default:
+			case RANK_CIVILIAN:
+				mRank = PB_CivvieRanks[random[PBRandomName](0, PB_CivvieRanks.Size() - 1)];
+				break;
+			case RANK_MILITARY:
+				mRank = PB_ZombiemanRanks[random[PBRandomName](0, PB_ZombiemanRanks.Size() - 1)];
+				break;
+			case RANK_CULTIST:
+				mRank = PB_CultistRanks[random[PBRandomName](0, PB_CultistRanks.Size() - 1)];
+				break;
+			case RANK_DOKTOR:
+				mRank = PB_ScientistRanks[random[PBRandomName](0, PB_ScientistRanks.Size() - 1)];
+				break;
+		}
+
+        string mFirstName = PB_ZombiemanFirstNames[random[PBRandomName](0, PB_ZombiemanFirstNames.Size() - 1)];
+        string mMiddleNameInitial = string.Format("%c", random[PBRandomName]("A", "Z")) .. ".";
+        string mLastName = PB_ZombiemanLastNames[random[PBRandomName](0, PB_ZombiemanLastNames.Size() - 1)];
+        string mCompleteName = mFirstName .. " " .. mMiddleNameInitial .. " " .. mLastName;
+
+        if (rankType == RANK_DOKTOR) {
+            mCompleteName = mCompleteName .. " (" .. PB_ScientistAreas[random[PBRandomName](0, PB_ScientistAreas.Size() - 1)] .. ")";
+        }
+
+        SetTag(mRank .. " " .. mCompleteName);
+    }
+}

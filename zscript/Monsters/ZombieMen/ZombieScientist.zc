@@ -75,7 +75,7 @@ Class PB_ZombieScientist : PB_Monster
 	{
 		Super.PostBeginPlay(); // call the super function for virtual functions so we don't break shit if GZdoom update.
 		HitBoxSpawned = False;
-		PickRandomName(RANK_DOKTOR); //TURN OFF MY CRINGE INHIBITORS.
+		GenerateHumanRandomName(RANK_DOKTOR); //TURN OFF MY CRINGE INHIBITORS.
 	}
 	
 	override void Tick()
