@@ -36,6 +36,12 @@ OptionMenu "PB_HUDOptions"
 	StaticText " "
 	StaticText "Execution", gold
 	Option "Show Execution Box", "pb_execution_box", "YesNo"
+	StaticText  ""
+	StaticText "Effects", gold
+	Option "Show Blood Droplets", "pb_showblooddrops", "YesNo"
+	Slider "Blood Droplets Transparency", "pb_blooddropsalpha", 0, 1, 0.02, 2
+	Option "Show Visor Cracks", "pb_showglasscracks", "YesNo"
+	Slider "Visor Cracks Transparency", "pb_glasscracksalpha", 0, 1, 0.02, 2
 }
 
 OptionMenu "TiltPlusPlusMenu"
@@ -108,16 +114,20 @@ OptionMenu "PBSettings"
 {
 	Title "Project Brutality Settings"
 	StaticText " "
+	StaticText " "
 	Submenu "Spawn Settings",		"GlobalSettings"
 	StaticText " "
-	//StaticText " "
 	Submenu "Gameplay Settings",		"GameplaySettings"
 	StaticText " "
 	Submenu "Visual Settings",		"RenderingSettings"
 	StaticText " "
 	Submenu "HUD Settings",			"PB_HUDOptions"
 	StaticText " "
+	StaticText " "
+	StaticText " "
 	Command "Go to Test Map", "map PBTEST"
+	StaticText " "
+	StaticText "PB Version: 0.1.0 alpha"
 }
 
 OptionMenu "GlobalSettings"

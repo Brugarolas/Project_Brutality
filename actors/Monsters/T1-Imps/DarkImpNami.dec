@@ -4,11 +4,11 @@ actor PB_DarkImpNami : PB_Monster //Replaces DoomImp
 	//$Category Project Brutality - Monsters/Imps
 	//$Sprite DRKIB1
     Game Doom
-    Scale 1.04
+    Scale 1
 	SpawnID 1460
 	Health 125
 	Radius 18
-	Height 48
+	Height 56
 	Speed 12
 	Mass 100
     GibHealth 35

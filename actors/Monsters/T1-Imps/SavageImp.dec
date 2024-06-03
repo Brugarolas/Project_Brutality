@@ -5,11 +5,11 @@ ACTOR PB_InfectedImp: PB_Imp //Replaces DoomImp
 	//$Category Project Brutality - Monsters/Imps
 	//$Sprite 1ROSA1
 	Game Doom
-    Scale 1.05
+    Scale 1
 	SpawnID 5
 	Health 110
 	Radius 18
-	Height 48
+	Height 56
 	Mass 100
     GibHealth 35
     Speed 14
@@ -1277,6 +1277,7 @@ DeathNoGuts:
 		TNT1 A 1 A_CustomMissile ("RocketImpVictim", 15, 0, 180, 2, 0)
 		stop
 	
+	Death.Explosive:
 	Death.ExplosiveImpact:
 	Death.ExtremePunches:
 		TNT1 A 0

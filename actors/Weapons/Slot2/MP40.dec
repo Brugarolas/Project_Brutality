@@ -52,15 +52,11 @@ ACTOR PB_MP40 : PB_Weapon
 	+DONTGIB
 	Obituary "%o was put against the wall by %k's Maschinenpistole 40."
     Inventory.PickupSound "weapons/MP40_pickup"
-	Inventory.Pickupmessage "You found a Maschinenpistole 40! (Slot 2)"
-	Tag "Maschinenpistole 40"
+	Inventory.Pickupmessage "MP-40 (Slot 2)"
+	Tag "MP-40"
     +WEAPON.NOAUTOAIM
     +WEAPON.NOALERT
     +WEAPON.NOAUTOFIRE
-	Weapon.BobRangeX 0.3
-	Weapon.BobRangeY 0.5
-	Weapon.BobStyle InverseSmooth
-	Weapon.BobSpeed 2.4
     Scale 0.25
 	PB_WeaponBase.UnloaderToken "MP40HasUnloaded"
 	Inventory.AltHUDIcon "AMP4A0"
@@ -294,6 +290,7 @@ ACTOR PB_MP40 : PB_Weapon
 				A_Overlay(9,"LeftFlashVariation");
 				A_AlertMonsters;
 				A_PlaySoundEx("weapons/mp40_fire", "SoundSlot7");
+				PB_LowAmmoSoundWarning("smg", "LeftMP40Ammo");
 				//A_FireBullets (0.1, 0.1, -1, 15, "HitPuff", FBF_NORANDOM,8192,"Tracer", -4, -8);
 				A_FireProjectile("PB_9x19mm", frandom(-0.1,0.1),0,0,0, FPF_NOAUTOAIM, frandom(-0.1,0.1));
 				A_FireCustomMissile("YellowFlareSpawn",0,0,-4,0);
@@ -351,6 +348,7 @@ ACTOR PB_MP40 : PB_Weapon
 				A_Overlay(8,"RightFlashVariation");
 				A_AlertMonsters;
 				A_PlaySoundEx("weapons/mp40_fire", "SoundSlot6");
+				PB_LowAmmoSoundWarning("smg");
 				//A_FireBullets (0.1, 0.1, -1, 15, "HitPuff", FBF_NORANDOM,8192,"Tracer", -4, 8);
 				A_FireProjectile("PB_9x19mm", frandom(-0.1,0.1),0,0,0, FPF_NOAUTOAIM, frandom(-0.1,0.1));
 				A_FireCustomMissile("YellowFlareSpawn",0,0,4,0);
@@ -511,6 +509,7 @@ ACTOR PB_MP40 : PB_Weapon
 				PB_FireOffset;
 				A_AlertMonsters;
 				A_PlaySoundEx("weapons/mp40_fire", "Weapon");
+				PB_LowAmmoSoundWarning("smg");
 				//A_FireBullets (0.1, 0.1, -1, 15, "HitPuff", FBF_NORANDOM,8192,"Tracer", -2, 0);
 				A_FireProjectile("PB_9x19mm", frandom(-0.1,0.1),0,0,0, FPF_NOAUTOAIM, frandom(-0.1,0.1));
 				A_FireCustomMissile("YellowFlareSpawn",0,0,0,0);
@@ -547,6 +546,7 @@ ACTOR PB_MP40 : PB_Weapon
 			MPZO F 1 BRIGHT {
 				A_AlertMonsters;
 				A_PlaySoundEx("weapons/mp40_fire", "Weapon");
+				PB_LowAmmoSoundWarning("smg");
 				//A_FireBullets (0.1, 0.1, -1, 15, "HitPuff", FBF_NORANDOM,8192,"Tracer", -2, 0);
 				A_FireProjectile("PB_9x19mm", frandom(-0.1,0.1),0,0,0, FPF_NOAUTOAIM, frandom(-0.1,0.1));
 				A_FireCustomMissile("YellowFlareSpawn",0,0,0,0);

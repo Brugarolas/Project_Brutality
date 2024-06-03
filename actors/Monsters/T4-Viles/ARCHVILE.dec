@@ -23,6 +23,7 @@ ACTOR PB_Archvile: Archvile //Replaces Archvile
 	SpawnID 2300
 	Radius 20
 	Height 56
+	Scale 0.8
     damagefactor "Crush", 10.0
 	Mass 500
 	Speed 16
