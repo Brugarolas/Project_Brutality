@@ -1,0 +1,63 @@
+//[inkoalawetrust] CheckActorExists(), IsDead(), and IsInState() are copied from my KAI library.
+Mixin Class PB_CheckFunctions
+{
+	ClearScope Bool CheckActorExists (Name ActorClass)
+	{
+		Class<Actor> Act = ActorClass;
+		Return !!Act;
+	}
+	
+	ClearScope Bool IsDead (Actor Other)
+	{
+		If (!Other) Return False;
+		Return (Other.Player ? Other.Player.PlayerState == PST_DEAD : Other.Health <= 0);
+	}
+	
+	ClearScope Bool IsInState (Actor Other, StateLabel CheckFor = "Spawn", Bool Exact = False, Bool FromWeapon = False)
+	{
+		If (!Other) Return False;
+		Return (Other.InStateSequence(Other.CurState,Other.FindState (CheckFor,Exact)));
+	}
+}
+
+mixin class PB_BetterPickupSound
+{
+	override void PlayPickupSound(actor toucher)
+	{
+		double atten;
+		int flags = CHANF_OVERLAP|CHANF_MAYBE_LOCAL;
+		if(bNoAttenPickupSound) atten = ATTN_NONE;
+		else atten = ATTN_NORM;
+		if(toucher && toucher.CheckLocalView()) flags |= CHANF_NOPAUSE;
+		toucher.A_StartSound(PickupSound,1002,flags,1.0,atten);
+	}
+}
+
+mixin class PB_PowerupTimer
+{
+	int time;
+	bool lf;
+
+	void PowerupTimer(color col, color col2 = 0)
+	{
+		time = EffectTics;
+
+		switch(time)
+		{
+			case 105:
+			case 70:
+			case 35:
+				lf = CVar.GetCVar("pb_lowflashesmode", owner.player).GetBool();
+				owner.A_SetBlend(col, lf ? 0.08 : 0.25, lf ? 20 : 12, col2);
+				owner.A_StartSound("powerup/countdown", CHAN_AUTO, CHANF_OVERLAP | CHANF_UI);
+			default:
+				break;
+		}
+	}
+
+	void EndBlend(color col, color col2 = 0)
+	{
+		owner.A_SetBlend(col, lf ? 0.1 : 0.50, 35, col2);
+		owner.A_StartSound("powerup/ranout", CHAN_AUTO, CHANF_OVERLAP | CHANF_UI); 
+	}
+}
