@@ -2,10 +2,13 @@ Class PB_M1Plasma : PB_WeaponBase
 {
 	default
 	{
+		//$Category Project Brutality - Weapons
+		//$Sprite PLASA0
 		weapon.slotnumber 7;							
 		weapon.ammotype1 "PB_Cell";	
 		Weapon.AmmoGive1 60;		
-		weapon.ammotype2 "PlasmaAmmo";		
+		weapon.ammotype2 "PlasmaAmmo";
+		PB_WeaponBase.AmmoTypeLeft "LeftPlasmaAmmo";
 		Inventory.MaxAmount 3;
 		PB_WeaponBase.unloadertoken "PlasmaRifleHasUnloaded";
 		PB_WeaponBase.respectItem "RespectPlasmaGun";	
@@ -18,6 +21,7 @@ Class PB_M1Plasma : PB_WeaponBase
 		FloatBobStrength 0.5;
 		PB_WeaponBase.OffsetRecoilX 2.5;
 		PB_WeaponBase.OffsetRecoilY 2.0;
+		+WEAPON.NOAUTOAIM
 	}
 	
 	states
@@ -337,7 +341,7 @@ Class PB_M1Plasma : PB_WeaponBase
 				A_StartSound("Ironsights", 12,CHANF_OVERLAP);
 				A_ClearOverlays(10,65);
 				}
-			TNT1 A 0 A_JumpIfInventory("DualWieldingPlasma", 1,"StopDualWield");
+			//TNT1 A 0 A_JumpIfInventory("DualWieldingPlasma", 1,"StopDualWield");
 			TNT1 A 0 A_JumpIfInventory("PB_M1Plasma", 2,"SwitchToDualWield");
 			TNT1 A 0 A_print("You need two plasma rifles to dual wield!");
 			Goto Ready3;
@@ -347,7 +351,9 @@ Class PB_M1Plasma : PB_WeaponBase
 						if (A_CheckAkimbo()) 
 						{
 							A_SetAkimbo(False);
-							A_SetInventory(invoker.DualWieldToken,0); 
+							A_SetInventory(invoker.DualWieldToken,0);
+							A_ClearOverlays(10,11);
+							A_ClearOverlays(60,65);
 							return resolvestate("SwitchFromDualWield");
 						}
 						
@@ -358,6 +364,13 @@ Class PB_M1Plasma : PB_WeaponBase
 				P2R0 ABCD 1 A_Setroll(roll-0.3, SPF_INTERPOLATE);
 				P2R0 EGH 1 A_Setroll(roll+0.4, SPF_INTERPOLATE);
 				Goto ReadyDualWield;
+		StopDualWield:
+			TNT1 A 0 {
+				A_SetAkimbo(False);
+				A_SetInventory(invoker.DualWieldToken,0);
+				A_ClearOverlays(10,11);
+				A_ClearOverlays(60,65);
+			}
 		SwitchFromDualWield:
 				P2R0 HGE 1 A_Setroll(roll+0.4, SPF_INTERPOLATE);
 				P2R0 DCBA 1 A_Setroll(roll-0.3, SPF_INTERPOLATE);
@@ -661,6 +674,11 @@ Class PB_M1Plasma : PB_WeaponBase
 			TNT1 A 0 A_StartSound("PLSDRAW", 12,CHANF_OVERLAP);
 			goto ReadyDualWield;
 			
+		DeselectDualWield:
+			DPRS DCBA 1;
+			TNT1 A 0 A_lower(120);
+			wait;
+			
 		ReadyDualWield:
 			TNT1 A 0 {
 					//set the overlays for the sides and other things needed, like
@@ -689,6 +707,10 @@ Class PB_M1Plasma : PB_WeaponBase
 							A_SetInventory("DualFireReload",1);
 					}
 				}
+				
+				if(!PB_CanDualWield())
+					return resolvestate("StopDualWield");
+				
 				return A_DoPBWeaponAction(WRF_ALLOWRELOAD|WRF_NOFIRE);
 			}
 			Loop;

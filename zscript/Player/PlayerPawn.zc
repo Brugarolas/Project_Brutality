@@ -129,6 +129,7 @@ class PlayerPawnBase : PlayerPawn
 	double	YBob;
 	double	YBobOffset;
 	float	BobTime;
+	vector2 FinalBob;
 	
 	///////////////////////////////////
 	//Painkiller only
@@ -2365,7 +2366,8 @@ class PlayerPawnBase : PlayerPawn
 			
 			if(i == 0) p1 = r; else p2 = r;
 		}
-		return (p1 * (1. - ticfrac) + p2 * ticfrac) * (CountInv("Zoomed") >= 1 ? 0.2 : 1.0);
+		FinalBob = (p1 * (1. - ticfrac) + p2 * ticfrac) * (CountInv("Zoomed") >= 1 ? 0.2 : 1.0);
+		return FinalBob;
 	}
 	
 	// The rest of Project Brutality player class
@@ -2745,7 +2747,7 @@ class DEDashJump : Inventory
 	bool dJump, waiting;
 	
 	const DASHMAXCHARGE = 35;
-
+	Default{+INVENTORY.UNCLEARABLE +INVENTORY.UNDROPPABLE} //This is an ESSENTIAL part of the PlayerPawn. it also turns out that some maps can force you to clear and drop this item. Declared New Apocalypse is where I found this issue. DO NOT REMOVE.
 	override void Tick()
 	{
 		Super.Tick();

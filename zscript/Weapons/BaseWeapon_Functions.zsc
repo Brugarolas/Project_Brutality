@@ -1,5 +1,44 @@
 extend class PB_WeaponBase
 {
+	uint8 barrelHeat, leftBarrelHeat;
+	
+	action void PB_IncrementHeat(int flAmount = 1, bool flLeft = false)
+	{
+		if(!flLeft)
+		{
+			if(invoker.barrelHeat < 200)
+				invoker.barrelHeat += flAmount * 10;
+		}
+		else	
+		{
+			if(invoker.leftBarrelHeat < 200)
+				invoker.leftBarrelHeat += flAmount * 10;
+		}
+	}
+
+	action void PB_CoolDownBarrel(double posOfsx = 0, double posOfsy = 0, double posOfsz = 0, double velOfsx = 0, double velOfsy = 0, double velOfsz = 0)
+	{
+		if((posOfsx <= 0 && invoker.barrelHeat < 1) || (posOfsx > 0 && invoker.leftBarrelHeat < 1))
+			return;
+			
+		double endingScale = clamp(PB_Math.LinearMap(posOfsX <= 0 ? invoker.barrelHeat : invoker.leftBarrelHeat, 0, 20.0, 0.5, 1.0), 0.5, 1.0);
+
+		PB_GunSmokeSpawn(
+			(posOfsx, posOfsy, posOfsz), 
+			(velOfsx, velOfsy, velOfsz) + (frandom(0, 4) * endingScale, frandom(-0.5, 0.5), frandom(-0.5, 0.5) * endingScale),
+			"PB_BarrelHeatSmoke",
+			0.2 * endingScale,
+			0.7 * endingScale,
+			1.3,
+			0.4
+		);
+
+		if(posOfsx > 0)
+			invoker.leftBarrelHeat--;
+		else
+			invoker.barrelHeat--;
+	}
+	
 	action void PB_ReFire(statelabel flash = null)
 	{
 		A_ReFire(flash);
@@ -41,6 +80,11 @@ extend class PB_WeaponBase
 	action void PB_ResetSustainedFire()
 	{
 		invoker.sustainedFire = 0;
+	}
+	
+	Action Bool PB_CanDualWield()
+	{
+		return (invoker.amount > 1);	//simple, ig
 	}
 	
 	//these functions were added to simplify part of the states from pb weapons
@@ -460,6 +504,15 @@ extend class PB_WeaponBase
 		ofs.z -= 10.5;
 		ofs.y += 15;
 		double fovOfs = (120 - self.player.desiredfov) / 3.f; // good enough
+		
+		PlayerPawnBase plr = PlayerPawnBase(self);
+		
+		if(plr)
+		{
+			ofs.x -= plr.FinalBob.x * 0.3;
+			ofs.z -= plr.FinalBob.y * 0.3;
+		}
+		
 		Vector3 spos = PB_Math.RelativeToGlobalCoords((self.pos.xy, self.player.viewz), (self.angle, self.pitch, self.roll), (self.radius + ofs.y - (5.0 * abs(sin(self.pitch))) + fovOfs, -ofs.x, ofs.z), true);
 		Vector3 svel = PB_Math.RelativeToGlobalCoords((self.vel.xy, 0), (self.angle, self.pitch, self.roll), vofs);
 		
@@ -483,7 +536,7 @@ extend class PB_WeaponBase
 	// [gng] alias for old PB_GunSmoke format function arguments
 	Action void PB_GunSmoke_Basic(double d1 = 0, double d2 = 0 , double d3 = 0, string SActor = "PB_GunFireSmoke")
 	{
-		PB_GunSmokeSpawn((d1, d2, d3), (0, 0, 0), SActor, 0.5, 1.5, 1.2, 1.1); 
+		PB_GunSmokeSpawn((d1, d2, d3), (0, 0, 0), SActor, 0.5, 1.5, 1.2, 2); 
 		NashGoreStatics.QueueSmoke();
 	}
 
@@ -538,10 +591,10 @@ extend class PB_WeaponBase
 			(d1, d2 + 5.1, d3),
 			(0, 0, 0),
 			SActor,
-			3.5,
-			0.5,
-			1.01,
-			1.0
+			2.5,
+			1.0,
+			1.02,
+			1.2
 		);
 
 		PB_GunSmokeSpawn(
@@ -558,25 +611,25 @@ extend class PB_WeaponBase
 
 		vector2 smkPOfs;
 
-		smkPOfs = (frandom(6, 10), frandom(-2, 2));
+		smkPOfs = (frandom(8, 17), frandom(-2, 2));
 		PB_GunSmokeSpawn(
-			(d1 - 20, d2, d3 - smkPOfs.y),
+			(d1 - 20, d2, d3 - 5 - smkPOfs.y),
 			(0, smkPOfs.x, -smkPOfs.y),
 			SActor,
 			4,
 			0.4,
 			1.5,
-			1.2
+			0.9
 		);
 
 		PB_GunSmokeSpawn(
-			(d1 + 20, d2, d3 + smkPOfs.y),
+			(d1 + 20, d2, d3 - 5 + smkPOfs.y),
 			(0, -smkPOfs.x, smkPOfs.y),
 			SActor,
 			5,
 			0.4,
 			1.5,
-			1.2
+			0.9
 		);
 
 		smkPOfs = (frandom(-6, -15), frandom(-6, 3));
@@ -587,7 +640,7 @@ extend class PB_WeaponBase
 			1.4,
 			0.5,
 			1.3,
-			1.2
+			0.9
 		);
 	
 		smkPOfs = (frandom(6, 15), frandom(-6, 3));
@@ -598,7 +651,7 @@ extend class PB_WeaponBase
 			1.4,
 			0.5,
 			1.3,
-			1.2
+			0.9
 		);
 
 		NashGoreStatics.QueueSmoke();
@@ -737,9 +790,9 @@ extend class PB_WeaponBase
 			(1.44, 0, -0.5),
 			SActor,
 			3.2,
-			0.8,
+			1.0,
 			1.05,
-			1.03
+			1.2
 		);
 
 		NashGoreStatics.QueueSmoke();
@@ -1020,6 +1073,24 @@ extend class PB_WeaponBase
 		return result;
 	}
 	
+	// Cacodemon
+	action StateLabel PB_ExecuteCacodemon() {
+		//A_GiveInventory("ExecutionToken", 1, AAPTR_PLAYER_GETTARGET); // Todo: Move this to a higher function once more fatalities are done
+		StateLabel result;
+		int selector = 1;//(random(1,2));
+		
+		// Generic Fatalities
+		switch(selector){
+			case 1:
+				result = "Execution_Cacodemon1";
+				break;
+// 			case 2:
+// 				result = "Execution_Imp2";
+// 				break;
+		}
+		return result;
+	}
+	
 	action StateLabel PB_ExecuteShotguny() {
 		//A_GiveInventory("ExecutionToken", 1, AAPTR_PLAYER_GETTARGET); // Todo: Move this to a higher function once more fatalities are done
 		StateLabel result;
@@ -1130,6 +1201,10 @@ extend class PB_WeaponBase
 			//Shotgun Guy
 			case 'PB_ShotgunGuy':
 				return PB_ExecuteShotguny();
+				
+			//Cacodemon
+			case 'PB_Cacodemon':
+				return PB_ExecuteCacodemon();
 				
 			default:
 // 				A_Print("Execution Failed");
@@ -1299,8 +1374,8 @@ extend class PB_WeaponBase
 			fac *= 0.33;
 		}
 		
-        A_SetPitch(self.pitch+(pitchDelta * pb_weapon_recoil_mod_vertical * fac), SPF_INTERPOLATE);
-        A_SetAngle(self.angle+(angleDelta * pb_weapon_recoil_mod_horizontal * fac), SPF_INTERPOLATE);
+        pitch += (pitchDelta * pb_weapon_recoil_mod_vertical * fac);
+        angle += (angleDelta * pb_weapon_recoil_mod_horizontal * fac);
 	}
 	
 	//Adds weapon recoil, modifying it if the owner has a berserk powerup
@@ -1316,6 +1391,14 @@ extend class PB_WeaponBase
 	{
 		vertOfs -= (self.player.viewz - self.pos.z) / self.player.CrouchFactor;
 		double fovOfs = (120 - self.player.desiredfov) / 3.f; // good enough
+		
+		PlayerPawnBase plr = PlayerPawnBase(self);
+		
+		if(plr)
+		{
+			horOfs -= plr.FinalBob.x * 0.3;
+			vertOfs -= plr.FinalBob.y * 0.3;
+		}
 	
 		Vector3 spos = PB_Math.RelativeToGlobalCoords((self.pos.xy, self.player.viewz), (self.angle, self.pitch, self.roll), (xOfs - (5.0 * abs(sin(self.pitch))) + fovOfs, horOfs, vertOfs), true);
 		Vector3 svel = PB_Math.RelativeToGlobalCoords((self.vel.xy, 0), (self.angle, self.pitch, self.roll), (xSpeed, horSpeed, vertSpeed));
@@ -1325,6 +1408,7 @@ extend class PB_WeaponBase
 		{
 			pCase.vel = svel;
 			pCase.angle = self.angle;
+			pCase.target = self;	//so the casings dont collide with the shooter
 
 			let pPBCase = PB_CasingBase(pCase);
 
@@ -1336,6 +1420,7 @@ extend class PB_WeaponBase
 				pSmoke.vel = svel * 0.3;
 				pSmoke.alpha = 0.5;
 				pSmoke.blowSpeed = 1.1;
+				pSmoke.fadeSpeed = 2;
 				pSmoke.scale *= 0.36;
 				pSmoke.master = self;
 			}
@@ -1360,7 +1445,7 @@ extend class PB_WeaponBase
 		{
 			for(int i = 0; i < MagazineMaxFill_Action; i++)
 			{
-				if((CountInv(AmmoMag_Action) == MagazineMaxFill_Action) || (!CountInv(AmmoPool_Action)))
+				if((CountInv(AmmoMag_Action) >= MagazineMaxFill_Action) || CountInv(AmmoPool_Action) < takeReserve)
 					return;
 				
 				A_GiveInventory(AmmoMag_Action, 1);
@@ -1451,6 +1536,7 @@ extend class PB_WeaponBase
 	override void AttachToOwner(Actor Other)
 	{
 		Super.AttachToOwner(other);
+		if(AmmoTypeLeft) {AmmoLeft = AddAmmo (Owner, AmmoTypeLeft, AmmoGive2);}
 		let toucher = other;
 		bool IsAlreadyPicked = false;
 		/*if (toucher.FindInventory("PB_PDAWeaponContainer",true))
@@ -1833,6 +1919,18 @@ extend class PB_WeaponBase
 	
 	action state A_DoPBWeaponAction(int weapflags = WRF_ALLOWRELOAD, int pbFlags = 0, string unloadtoken = "HasUnloaded", bool noReload = false)
 	{
+		bool initialWRF_ALLOWRELOAD = false;
+		if (weapflags & WRF_ALLOWRELOAD) initialWRF_ALLOWRELOAD = true;
+		weapFlags &= ~(WRF_ALLOWRELOAD);
+		if(invoker is "Melee_Attacks"){weapFlags |= WRF_ALLOWRELOAD;}
+		if(invoker is "PB_BFG9000" && FindInventory("BFGBlackHoleMode")){weapFlags |= WRF_ALLOWRELOAD;}
+		if(invoker is "PB_MG42" && (CountInv("MG42HasOverheated") || CountInv("MG42BarrelOverheat") >= 1) ){weapFlags |= WRF_ALLOWRELOAD;}
+		bool dualWieldCheck = invoker.DualWieldToken && FindInventory(invoker.DualWieldToken);
+		bool canLoadAmmoLeft = invoker.AmmoTypeLeft && countinv(invoker.ammotype1) > 0 && countInv(invoker.AmmoTypeLeft) < GetAmmoCapacity(invoker.AmmoTypeLeft);
+		bool canLoadAmmo = invoker.ammotype2 && countinv(invoker.ammotype1) > 0 && countinv(invoker.ammotype2) < GetAmmoCapacity(invoker.ammotype2);
+		bool dualReloadCheck = dualWieldCheck && (canLoadAmmoLeft||canLoadAmmo);
+		bool ReloadCheck = !noReload && initialWRF_ALLOWRELOAD && (canLoadAmmo || dualReloadCheck);
+		if( !(invoker is "PB_Unmaker") && ReloadCheck ){weapFlags |= WRF_ALLOWRELOAD;}
 		static const string PBWeapEmptyToken[] = 
 		{
 			"PB_PistolWasEmpty","RifleWasEmpty","UACSMGWasEmpty"
@@ -1888,6 +1986,7 @@ extend class PB_WeaponBase
 		}
 		if (CountInv("Unloading")>=1 && ResolveState("Unload") && !(pbFlags & PBWEAP_UNLOADED) && CountInv(invoker.UnloaderToken) != 1)
 		{
+			A_TakeInventory("Unloading",0);
 			return ResolveState("Unload");
 		}
 		else A_TakeInventory("Unloading", CountInv("Unloading"));
