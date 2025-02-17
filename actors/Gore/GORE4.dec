@@ -15,7 +15,7 @@ ACTOR XDeathNewSergeantArm1: XDeathArm1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 	    TNT1 A 0 A_JumpIf(waterlevel > 1, "Death")
 		4N09 ABCDEFGH 3 A_CustomMissile ("Brutal_FlyingBloodTrail5", 0, 0, random (0, 360), 2, random (0, 360))
 		Loop
@@ -34,7 +34,7 @@ actor Gib_NewSergeantArm1: LimbBase
     States
     {
     Spawn:
-	4N09 I 1900 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+	4N09 I 1900 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
        Loop
     Death.plasma: Death.Burn: Death.Flames:	    TNT1 A 0 A_CustomMissile ("XDeathBurnedArm", 32, 0, random (0, 360), 2, random (0, 160))        Stop
     Death:    
@@ -78,7 +78,7 @@ ACTOR XDeathNewSergeantArm1Kicked: XDeathNewSergeantArm1
 	    4N09 A 2
 		TNT1 A 0 A_ChangeFlag("NOCLIP", 0)
 		TNT1 A 0
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 	    TNT1 A 0 A_JumpIf(waterlevel > 1, "Death")
 		4N09 ABCD 6 A_CustomMissile ("Brutal_FlyingBloodTrail", 0, 0, random (0, 360), 2, random (0, 360))
 		Goto Spawn+3
@@ -99,18 +99,18 @@ ACTOR XDeathNewSergeantUpperTorso
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 		4N06 ABCDEFGHI 4
 		Loop
     Death:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
         TNT1 AAA 0 A_SpawnItem("Blood", 0, 5)
 		TNT1 A 0 A_SpawnItem("Gib_NewSergeantUpperTorso",0,0,0,1)
         Stop
@@ -141,18 +141,18 @@ ACTOR XDeathNewSergeantLowerTorso
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 		4N05 ABCDEFGHI 4
 		Loop
     Death:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
         TNT1 AAA 0 A_SpawnItem("Blood", 0, 5)
 		TNT1 A 0 A_SpawnItem("Gib_NewSergeantLowerTorso",0,0,0,1)
         Stop
@@ -175,11 +175,11 @@ ACTOR XDeathNewNaziLowerTorso : XDeathNewSergeantLowerTorso
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 		NZ05 ABCDEFGHI 4
 		Loop
     Death:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
         TNT1 AAA 0 A_SpawnItem("Blood", 0, 5)
 		TNT1 A 0 A_SpawnItem("Gib_NewNaziLowerTorso",0,0,0,1)
         Stop
@@ -212,7 +212,7 @@ ACTOR XDeathNewSergeantLeg1: XDeathArm1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 	    TNT1 A 0 A_JumpIf(waterlevel > 1, "Death")
 		4N07 ABCDEFGH 3 A_CustomMissile ("Brutal_FlyingBloodTrail5", 0, 0, random (0, 360), 2, random (0, 360))
 		Loop
@@ -231,7 +231,7 @@ actor Gib_NewSergeantLeg1: LimbBase
     States
     {
     Spawn:
-	4N07 I 1900 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+	4N07 I 1900 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
        Loop
     Death.plasma: Death.Burn: Death.Flames:	    TNT1 A 0 A_CustomMissile ("XDeathBurnedLeg", 32, 0, random (0, 360), 2, random (0, 160))        Stop
     Death:    
@@ -275,7 +275,7 @@ ACTOR XDeathNewSergeantLeg1Kicked: XDeathNewSergeantLeg1
 	    4N07 A 2
 		TNT1 A 0 A_ChangeFlag("NOCLIP", 0)
 		TNT1 A 0
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 	    TNT1 A 0 A_JumpIf(waterlevel > 1, "Death")
 		4N07 ABCD 6 A_CustomMissile ("Brutal_FlyingBloodTrail", 0, 0, random (0, 360), 2, random (0, 360))
 		Goto Spawn+3
@@ -289,7 +289,7 @@ ACTOR XDeathNewNaziLeg: XDeathNewSergeantLeg1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 	    TNT1 A 0 A_JumpIf(waterlevel > 1, "Death")
 		NZ07 A 3 {
 			A_CustomMissile ("Brutal_FlyingBloodTrail5", 0, 0, random (0, 360), 2, random (0, 360));
@@ -312,7 +312,7 @@ actor Gib_NewNaziLeg: Gib_NewSergeantLeg1
     {
     Spawn:
 	TNT1 A 0 A_SetRoll(0)
-	NZ07 I 1900 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+	NZ07 I 1900 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
        Loop
     Death.plasma: Death.Burn: Death.Flames:	    TNT1 A 0 A_CustomMissile ("XDeathBurnedLeg", 32, 0, random (0, 360), 2, random (0, 160))        Stop
     Death:    
@@ -361,7 +361,7 @@ ACTOR XDeathNewNaziLegKicked: XDeathNewNaziLeg
 	    NZ07 A 2
 		TNT1 A 0 A_ChangeFlag("NOCLIP", 0)
 		TNT1 A 0
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 	    TNT1 A 0 A_JumpIf(waterlevel > 1, "Death")
 		NZ07 AAA 3 {
 			A_CustomMissile ("Brutal_FlyingBloodTrail5", 0, 0, random (0, 360), 2, random (0, 360));
@@ -387,18 +387,18 @@ ACTOR XDeathNewImpUpperTorso
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 		4N04 ABCDEFGHI 4
 		Loop
     Death:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
         TNT1 AAA 0 A_SpawnItem("Blood", 0, 5)
 		TNT1 A 0 A_SpawnItem("Gib_NewImpUpperTorso",0,0,0,1)
         Stop
@@ -429,18 +429,18 @@ ACTOR XDeathNewImpLowerTorso
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
     States
     {
     Spawn:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
 		4N03 ABCDEFGHI 4
 		Loop
     Death:
-        TNT1 A 0 A_SpawnItem("Brutal_BloodSpot",0,0,0,1)
+        TNT1 A 0 A_SpawnItem("NashGoreBloodSpot",0,0,0,1)
         TNT1 AAA 0 A_SpawnItem("Blood", 0, 5)
 		TNT1 A 0 A_SpawnItem("Gib_NewImpLowerTorso",0,0,0,1)
         Stop
@@ -471,7 +471,7 @@ ACTOR XDeathInfernusLeg
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
@@ -580,7 +580,7 @@ ACTOR XDeathInfernusArm
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
     BloodType "Green_Blood", "GreenSawBlood", "GreenSawBlood"
@@ -689,7 +689,7 @@ ACTOR XDeathInfernusTorso
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
@@ -771,7 +771,7 @@ ACTOR XDeathInfernusHead
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
@@ -839,7 +839,7 @@ ACTOR XDeathInfernusUpperTorso
 	+DOOMBOUNCE
 	+MISSILE
     +MOVEWITHSECTOR
-    +CLIENTSIDEONLY
+    //+CLIENTSIDEONLY
     +NOBLOCKMAP
     +NOTELEPORT
 	Scale 1.1
