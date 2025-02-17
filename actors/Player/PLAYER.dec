@@ -1547,4 +1547,3 @@ NULL A 0 A_GiveInventory("ComeEatMeDemon")
 NULL A 0 A_SpawnItem ("GrowingBloodPool")	
 XPL1 E -1
        Loop    }}
-		  

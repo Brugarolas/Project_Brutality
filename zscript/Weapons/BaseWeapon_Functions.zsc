@@ -1283,64 +1283,62 @@ extend class PB_WeaponBase
 			if(GetPointer(AAPTR_PLAYER_GETTARGET) != NULL)
 			{
 				
-				if(GetPointer(AAPTR_PLAYER_GETTARGET).bCountKill)
-				{
-					LookExParams look;
-					look.FOV = 360;
+			if (GetPointer(AAPTR_PLAYER_GETTARGET).bCountKill) {
+				LookExParams look;
+				look.FOV = 360;
 					
-					Actor monster = GetPointer(AAPTR_PLAYER_GETTARGET);
+				Actor monster = GetPointer(AAPTR_PLAYER_GETTARGET);
 
-					if (monster.IsVisible(self, true, look) && Distance3D(monster) < 200 ){
+				if (monster.IsVisible(self, true, look) && Distance3D(monster) < 200) {
 						
-						int targetMaxHealth = monster.spawnHealth();
-						int targetCurrentHealth = monster.health;
+					int targetMaxHealth = monster.spawnHealth();
+					int targetCurrentHealth = monster.health;
 						
-						if (actorCanBeExecuted(monster)) {
+					if (actorCanBeExecuted(monster)) {
 							
-							// Move Monster and Player toward each other
-							monster.A_Stop();
-							double spd = 27.;
-							vector3 delta = ( monster.pos.x - pos.x, monster.pos.y - pos.y, monster.pos.z - pos.z );
-							double angleToMonster = AngleTo(monster);
-							double pitchToMonster = VectorAngle( sqrt(delta.y * delta.y + delta.x * delta.x), delta.z );
-							monster.A_SetPitch(pitchToMonster, SPF_INTERPOLATE);
-							monster.A_SetAngle(angleToMonster+180,SPF_INTERPOLATE);
+						// Move Monster and Player toward each other
+						monster.A_Stop();
+						double spd = 27.;
+						vector3 delta = ( monster.pos.x - pos.x, monster.pos.y - pos.y, monster.pos.z - pos.z );
+						double angleToMonster = AngleTo(monster);
+						double pitchToMonster = VectorAngle( sqrt(delta.y * delta.y + delta.x * delta.x), delta.z );
+						monster.A_SetPitch(pitchToMonster, SPF_INTERPOLATE);
+						monster.A_SetAngle(angleToMonster+180,SPF_INTERPOLATE);
 							
-							vector3 neworigin = Vec3Offset(cos(angleToMonster) * spd,  sin(angleToMonster) * spd, sin(pitchToMonster) * spd);
-							monster.SetOrigin(neworigin,true);
+						vector3 neworigin = Vec3Offset(cos(angleToMonster) * spd,  sin(angleToMonster) * spd, sin(pitchToMonster) * spd);
+						monster.SetOrigin(neworigin,true);
 							
-							// Set Player View and Properties
-							int colorGreen = -16711936;
-							int colorBlue = -16776961;
-// 							A_LogInt(monster.BloodColor);
-							if(monster.BloodColor == colorGreen)
-							{
-								PB_SetExecutionGreenBlood(true);
-							}
-							
-							if(monster.BloodColor == colorBlue)
-							{
-								PB_SetExecutionBlueBlood(true);
-							}
-							
-							A_SetAngle(AngleTo(monster));
-							pitchToMonster = VectorAngle( sqrt(delta.y * delta.y + delta.x * delta.x), delta.z );
-							A_SetPitch(-pitchToMonster);
-							PB_SetPlayerExecutionProperties();
-							
-							StateLabel st = PB_ExecutionHandlerString(monster);
-							monster.A_Die("Execution");
-							return ResolveState(st);
+						// Set Player View and Properties
+						int colorGreen = -16711936;
+						int colorBlue = -16776961;
+
+						if(monster.BloodColor == colorGreen)
+						{
+							PB_SetExecutionGreenBlood(true);
 						}
+							
+						if(monster.BloodColor == colorBlue)
+						{
+							PB_SetExecutionBlueBlood(true);
+						}
+							
+						A_SetAngle(AngleTo(monster));
+						pitchToMonster = VectorAngle( sqrt(delta.y * delta.y + delta.x * delta.x), delta.z );
+						A_SetPitch(-pitchToMonster);
+						PB_SetPlayerExecutionProperties();
+							
+						StateLabel st = PB_ExecutionHandlerString(monster);
+						monster.A_Die("Execution");
+						return ResolveState(st);
 					}
 				}
-// 			}
+			}
 		}
+
 		return null;
 	}
 	
 	action bool actorCanBeExecuted(Actor monster) {
-		
 		int targetMaxHealth = monster.spawnHealth();
 		int targetCurrentHealth = monster.health;
 		
@@ -1354,31 +1352,28 @@ extend class PB_WeaponBase
 		}
 		
 		return false;
-		
 	}
 	
 	// Shoutout to Matt on ZDoom forums for the helpful weapon functions
-    action bool PressingFire(){return player.cmd.buttons & BT_ATTACK;}
+	action bool PressingFire(){return player.cmd.buttons & BT_ATTACK;}
     action bool PressingAltfire(){return player.cmd.buttons & BT_ALTATTACK;}
 	action bool PressingReload(){return player.cmd.buttons & BT_RELOAD;}
 	action bool PressingUser1(){return player.cmd.buttons & BT_USER1;}
 	action bool PressingUser4(){return player.cmd.buttons & BT_USER4;} //Particularly for the fist combos
-	
-	//Set weapon recoil, factoring in the recoil multiplier cvar
-	//Normally you want to use PB_WeaponRecoil instead, because it accounts for the berserk powerup
-	action void PB_WeaponRecoilBasic(float pitchDelta, float angleDelta = 0)
-	{
+
+	// Set weapon recoil, factoring in the recoil multiplier cvar
+	// Normally you want to use PB_WeaponRecoil instead, because it accounts for the berserk powerup
+	action void PB_WeaponRecoilBasic(float pitchDelta, float angleDelta = 0) {
 		double fac = 1.0;
-		if (invoker.GunBraced)
-		{
+		if (invoker.GunBraced) {
 			fac *= 0.33;
 		}
 		
         pitch += (pitchDelta * pb_weapon_recoil_mod_vertical * fac);
         angle += (angleDelta * pb_weapon_recoil_mod_horizontal * fac);
 	}
-	
-	//Adds weapon recoil, modifying it if the owner has a berserk powerup
+
+	// Adds weapon recoil, modifying it if the owner has a berserk powerup
 	action void PB_WeaponRecoil(float pitchDelta, float angleDelta, float powerMod = 0.5)
 	{
         if (invoker.OwnerHasBerserk())

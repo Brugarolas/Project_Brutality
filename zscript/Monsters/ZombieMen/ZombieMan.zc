@@ -91,7 +91,7 @@ Class PB_ZombieMan : PB_Monster
 	{
 		Super.PostBeginPlay(); // call the super function for virtual functions so we don't break shit if GZdoom update.
 		HitBoxSpawned = False;
-		PickRandomName(RANK_MILITARY);
+		GenerateHumanRandomName(RANK_MILITARY);
 	}
 	
 	override void Tick()

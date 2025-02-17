@@ -1019,7 +1019,7 @@ OptionMenu "GoreDebrisMenu"
 	StaticText "$NASHGOREMNU_BLOOD_TITLE", 1
 	NashGoreSlider "Gore Draw Distance", "This has a big performance impact, don't get greedy!", "pb_floorwallblooddrawdist", 400, 3000, 5, 0
 	NashGoreOption "$NASHGOREMNU_BLOOD_TYPE",		"$NASHGOREMNU_HELPTEXT_BLOOD_TYPE",			"nashgore_bloodtype",	"NashGoreBloodTypes"
-	NashGoreSlider "$NASHGOREMNU_BLOOD_AMOUNT",		"$NASHGOREMNU_HELPTEXT_BLOOD_AMOUNT",		"nashgore_bloodamount",	0, 255, 1, 0
+	NashGoreSlider "$NASHGOREMNU_BLOOD_AMOUNT",		"$NASHGOREMNU_HELPTEXT_BLOOD_AMOUNT",		"nashgore_bloodamount",	100, 500, 50, 0
 	NashGoreOption "$NASHGOREMNU_BLOOD_SPRITES",	"$NASHGOREMNU_HELPTEXT_BLOOD_SPRITES",		"nashgore_spriteblood",	"NashGoreBloodSpriteValues"
 	NashGoreOption "$NASHGOREMNU_BLOOD_SPURTS",		"$NASHGOREMNU_HELPTEXT_BLOOD_SPURTS",		"nashgore_bloodspurt",	"OnOff"
 
@@ -1027,14 +1027,14 @@ OptionMenu "GoreDebrisMenu"
 
 	StaticText "$NASHGOREMNU_GIB_TITLE", 1
 	NashGoreOption "$NASHGOREMNU_GIB_TYPE",			"$NASHGOREMNU_HELPTEXT_GIB_TYPE",			"nashgore_gibtype",		"NashGoreGibTypes"
-	NashGoreSlider "$NASHGOREMNU_GIB_AMOUNT",		"$NASHGOREMNU_HELPTEXT_GIB_AMOUNT",			"nashgore_gibamount",	0, 255, 1, 0
+	NashGoreSlider "$NASHGOREMNU_GIB_AMOUNT",		"$NASHGOREMNU_HELPTEXT_GIB_AMOUNT",			"nashgore_gibamount",	10, 500, 10, 0
 
 	StaticText ""
 
 	StaticText "$NASHGOREMNU_MISC_TITLE", 1
 	SafeCommand "$NASHGOREMNU_MISC_CLEARGORENOW",			"netevent EV_ClearGore"
-	NashGoreSlider "$NASHGOREMNU_MISC_MAXGORE",				"$NASHGOREMNU_HELPTEXT_MISC_MAXGORE",		"nashgore_maxgore",		0, 2000, 1, 0
-	NashGoreSlider "$NASHGOREMNU_MISC_MAXCASINGS",			"$NASHGOREMNU_HELPTEXT_MISC_MAXCASINGS",	"nashgore_maxcasings",	0, 2000, 1, 0
+	NashGoreSlider "$NASHGOREMNU_MISC_MAXGORE",				"$NASHGOREMNU_HELPTEXT_MISC_MAXGORE",		"nashgore_maxgore",		256, 2048, 8, 0
+	NashGoreSlider "$NASHGOREMNU_MISC_MAXCASINGS",			"$NASHGOREMNU_HELPTEXT_MISC_MAXCASINGS",	"nashgore_maxcasings",	0, 2048, 8, 0
 	NashGoreOption "Cheap Casings",				"To improve performance, casings will not react to the player and it's surroundings.",			"pb_cheapcasings",		"OnOff"
 	NashGoreOption "$NASHGOREMNU_MISC_CORPSEBLOOD",			"$NASHGOREMNU_HELPTEXT_MISC_CORPSEBLOOD",	"nashgore_corpseblood",	"OnOff"
 	NashGoreOption "$NASHGOREMNU_MISC_FOOTPRINTS",			"$NASHGOREMNU_HELPTEXT_MISC_FOOTPRINTS",	"nashgore_footprints",	"OnOff"

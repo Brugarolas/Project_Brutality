@@ -1,5 +1,6 @@
 class PB_Monster : Actor abstract
 {
+	mixin PB_RandomDemonNameHandler;
 	mixin PB_RandomZombieNameHandler;
 	Mixin PB_CheckFunctions;
 	
@@ -404,6 +405,7 @@ class PB_Monster : Actor abstract
 	override void PostBeginPlay()
 	{
 		Super.PostBeginPlay();
+		GenerateDemonRandomName();
 		heardOpponent = 0;
 		HitBoxSpawned = False;
 		avoidCooldown = 0;
