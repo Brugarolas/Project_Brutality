@@ -1,7 +1,8 @@
+#include "MODELS/nashgore/CorpseBlood/_models.lmp"
+#include "MODELS/nashgore/Footprint/_models.lmp"
+#include "MODELS/nashgore/BloodSpot/_models.lmp"
+#include "MODELS/nashgore/BloodTrail/_models.lmp"
 
-#include "MODELS/nashgore/WallBlood/_models.txt"
-#include "MODELS/nashgore/CorpseBlood/_models.txt"
-#include "MODELS/nashgore/Footprint/_models.txt"
 #include "MODELS/Definitions/Acid.txt"
 #include "MODELS/Definitions/GrowingBloodPoolsRed.txt"
 #include "MODELS/Definitions/GrowingBloodPoolsBlue.txt"
@@ -21,3 +22,4 @@
 #include "MODELS/Definitions/MODELDEF.Slot2.txt"
 #include "MODELS/Definitions/MODELDEF.Slot1.txt"
 #include "MODELS/Definitions/MODELDEF.Keys.txt"
+#include "MODELS/Definitions/Shrapnel.txt"
