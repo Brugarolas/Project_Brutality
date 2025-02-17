@@ -3,7 +3,7 @@ Class PB_Monster : Actor abstract
 	int	HitBoxTimerNew;
 	int HitBoxTimerOld;
 	int EnemyLastSighted;
-	
+	mixin PB_RandomDemonNameHandler;
 	
 	bool HitBoxSpawned;
 	bool Wandering;
@@ -104,11 +104,11 @@ Class PB_Monster : Actor abstract
 
 	override void PostBeginPlay() {
 		Super.PostBeginPlay(); // call the super function for virtual functions so we don't break shit if GZdoom update.
+		GenerateDemonRandomName();
 		heardOpponent = 0;
 		HitBoxSpawned = False;
-	
 	}
-	
+
 	double A_PrepairDrop()
 	{
 		vector2 aimbak =(self.angle,self.pitch);
