@@ -111,7 +111,8 @@ server float pb_weapon_recoil_mod_vertical = 1.0;
 server float pb_weapon_recoil_mod_horizontal = 1.0;
 server bool pb_weapon_recoil_extra_weapons = false; //some people don't like recoil on the rocket launcher, BFG etc, as they consider it not lore friendly or antithetical to the weapons design. This cvar enables recoil for them
 
-
+//Accessability Options
+server bool pb_camerarolltoggle = true; //Invert
 
 //Rendering
 server int noscreensplash = 0;
@@ -223,7 +224,7 @@ server bool DisablePB_SuperGL = false;
 server bool DisablePB_M2Plasma = false;
 //Tier 3 weapons
 server bool DisablePB_SMG = false;
-server bool DisableRifleUpgrade = false;
+server bool DisablePB_HDMRUpgrade = false;
 server bool DisablePB_Nailgun = false;
 server bool DisablePB_SGMagazine = false;
 server bool DisablePB_QuadSG = false;
@@ -314,6 +315,7 @@ server int nashgore_maxcasings = 50;
 // NashGore CVARs
 server int nashgore_maxgore = 1024;
 server int nashgore_bloodtype = 0;
+server float nashgore_bloodmult = 1.0;
 server int nashgore_bloodamount = 255;
 server bool nashgore_spriteblood = false;
 server bool nashgore_bloodspurt = true;

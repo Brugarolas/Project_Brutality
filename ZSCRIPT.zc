@@ -1,4 +1,4 @@
-version "4.11.3"
+version "4.14"
 
 const MAXITERATIONS = 32676;
 
@@ -182,10 +182,14 @@ const MAXITERATIONS = 32676;
 #include "zscript/Monsters/Sergeants/ZombieSergeantShield.zc"
 
 #include "zscript/Monsters/Chaingunner/Commando.zc"
+#include "zscript/Monsters/Chaingunner/HelmetCommando.zc"
 
 #include "zscript/Monsters/Imps/Imp.zc"
 
 #include "zscript/Monsters/Cacodemons/Cacodemon.zc"
+#include "zscript/Monsters/Elementals/PB_Elemental.zc"
+
+#include "zscript/Monsters/LostSouls/PB_LSoul.zc"
 
 //Effects
 #include "zscript/Effects/Casings.txt"
@@ -264,6 +268,7 @@ const MAXITERATIONS = 32676;
 #include "zscript/Spawner/Monsters/PBMastermindSpawner.zc"
 #include "zscript/Spawner/Monsters/PBCyberDemonSpawner.zc"
 #include "zscript/Spawner/Monsters/PBNaziSpawner.zc"
+#include "zscript/Spawner/Monsters/PBStealthMonsterSpawner.zc"
 
 #include "zscript/Spawner/Ammo/PB_PackSpawner.zc"
 #include "zscript/Spawner/Ammo/PB_MagSpawner.zc"

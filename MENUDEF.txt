@@ -331,7 +331,7 @@ OptionMenu "WeaponSpawns"
 	Option "Sub Machine Gun", "DisablePB_SMG", "OffOn"
 	Option "Pump Shotgun Magazine /w Dragon's Breath Shells",				"DisablePB_SGMagazine", "OffOn"
 	Option "Quad-Barreled Shotgun",				"DisablePB_QuadSG", "OffOn"
-	Option "Heavy DMR",				"DisableRifleUpgrade", "OffOn"
+	Option "Heavy DMR",				"DisablePB_HDMRUpgrade", "OffOn"
 	Option "Nailgun", "DisablePB_Nailgun", "OffOn"
 	Option "MG42","DisablePB_MG42","MG42Spawns"
 	Option "Anti-Matter Pulse Cannon",				"DisablePulseCannonUpgrade", "OffOn"
@@ -1019,7 +1019,7 @@ OptionMenu "GoreDebrisMenu"
 	StaticText "$NASHGOREMNU_BLOOD_TITLE", 1
 	NashGoreSlider "Gore Draw Distance", "This has a big performance impact, don't get greedy!", "pb_floorwallblooddrawdist", 400, 3000, 5, 0
 	NashGoreOption "$NASHGOREMNU_BLOOD_TYPE",		"$NASHGOREMNU_HELPTEXT_BLOOD_TYPE",			"nashgore_bloodtype",	"NashGoreBloodTypes"
-	NashGoreSlider "$NASHGOREMNU_BLOOD_AMOUNT",		"$NASHGOREMNU_HELPTEXT_BLOOD_AMOUNT",		"nashgore_bloodamount",	100, 500, 50, 0
+	NashGoreSlider "$NASHGOREMNU_BLOOD_AMOUNT",		"$NASHGOREMNU_HELPTEXT_BLOOD_AMOUNT",		"nashgore_bloodmult",	5.0, 25.0, 0.25, 1
 	NashGoreOption "$NASHGOREMNU_BLOOD_SPRITES",	"$NASHGOREMNU_HELPTEXT_BLOOD_SPRITES",		"nashgore_spriteblood",	"NashGoreBloodSpriteValues"
 	NashGoreOption "$NASHGOREMNU_BLOOD_SPURTS",		"$NASHGOREMNU_HELPTEXT_BLOOD_SPURTS",		"nashgore_bloodspurt",	"OnOff"
 

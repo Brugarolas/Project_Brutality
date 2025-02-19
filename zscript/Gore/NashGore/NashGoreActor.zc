@@ -276,23 +276,11 @@ class NashGoreActor : NashGorePlugin
 				}*/
 
 				// spawn blood spurts
-				if (nashgore_bloodspurt)
-				{
-					bool result;
-					Actor mo;
-					int failChance = 200;
-					[result, mo] = Owner.A_SpawnItemEx("NashGoreBloodSpurtSpawner", flags: SXF_USEBLOODCOLOR, failChance);
-					if (result && mo)
-					{
-						let spurt = NashGoreBloodSpurtSpawner(mo);
-						spurt.spurter = Owner;
-
-						// the spurt spawner needs the correct blood color for decal spraying later
-						spurt.CopyBloodColor(spurt.spurter);
-					}
+				if (nashgore_bloodspurt) {
+					let[x,b] = Owner.A_SpawnItemEx("NashGoreBloodSpurtSpawner", flags: SXF_USEBLOODCOLOR, 200);
+					if(b) b.copybloodcolor(owner);
 				}
-
-				spawnedCorpseBlood = true;
+				bCorpseBlood = true;
 			}
 
 			// falling death. SPLAT!

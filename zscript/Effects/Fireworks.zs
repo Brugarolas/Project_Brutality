@@ -90,7 +90,7 @@ Class FireworkSFXType2 : FireworkSFXType1
 	{
 		Radius 2;
 		Height 2;
-		+DOOMBOUNCE;
+		+BOUNCEONWALLS; +BOUNCEONFLOORS; +ALLOWBOUNCEONACTORS; +BOUNCEAUTOOFF;
 		WallBounceFactor 0.5;
 		BounceFactor 0.2;
 	}
